@@ -27,7 +27,7 @@ class User {
 
 
 
-    //-----------------------Methods---------------------------
+    //-------------------------------Create---------------------------------
     public function create($mail, $mdp) {
         $this->mysqli = DbMySQL::getConnection();
         $this->mail = $mail;
@@ -57,6 +57,8 @@ class User {
 
 
 
+
+    //-------------------------------Read---------------------------------
     public function read($id) {
         $mArray = array();
         $this->mysqli = DbMySQL::getConnection();
@@ -65,7 +67,7 @@ class User {
             $this->user_id = $id;
             $query = "SELECT * FROM USERS INNER JOIN DELIVERY_INFOS ON USERS.DELIVERY_INFO=DELIVERY_INFOS.ID WHERE USERS.ID = " .  $this->user_id;
             $result = $this->mysqli->query($query);  
-            echo $this->mysqli->error;
+            echo $query;
             while($row = $result->fetch_array()) {
                 $mArray[] = $row;
             }
@@ -102,20 +104,30 @@ class User {
 
 
 
+
+    //-------------------------------Update---------------------------------
     public function update($data) {
         $mysqli = database::getConnection();
 
         $query = "UPDATE USERS SET MAIL='".$data["mail"]."', PASSWORD='".$data["password"]."', STATUS='".$data["status"]."' WHERE ID=".$this->user_id;
+        $result = $this->mysqli->query($query); 
+
+        $query = "UPDATE DELIVERY_INFOS SET ADDRESS='".$data["address"]."', TYPE_CB='".$data["type_cb"]."', NUM_CB=".$data["num_cb"].", CRYPTO=".$data["crypto"].", POSTAL_CODE=".$data["postal_code"].", CITY='".$data["city"]."' WHERE ID=".$this->delivery_id;
         $result = $this->mysqli->query($query);  
 
         $mysqli->close();
+        return $this->read($this->user_id);
     }
 
 
 
+
+    //-------------------------------Delete---------------------------------
     public function delete() {
         $mysqli = database::getConnection();
 
+        $query = "DELETE FROM USERS WHERE ID=".$this->user_id;
+        $result = $this->mysqli->query($query); 
 
         $mysqli->close();
     }
@@ -125,5 +137,4 @@ class User {
 }
 
 
-$me = new User();
-$me->read(0);
+
