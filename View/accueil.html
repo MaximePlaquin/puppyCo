@@ -70,7 +70,7 @@
     </div>
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <form id="formulaireC" action="../back/rest.php?/login" method="post">
+        <form id="formulaireC" action="/puppyCo/Model/rest.php?/login" method="post">
             <div class="login">
                 <div class="login-screen">
                     <div class="app-title">
@@ -78,13 +78,13 @@
                     </div>
                     <div class="login-form">
                         <div class="control-group">
-                            <input type="text" class="login-field" placeholder="Pseudo" id="login-name" name="pseudo">
-                            <label class="login-field-icon fui-user" for="login-name"></label>
+                            <input type="text" class="login-field" placeholder="Pseudo" id="login-mail" name="mail">
+                            <label class="login-field-icon fui-user" for="login-mail"></label>
                         </div>
 
                         <div class="control-group">
-                            <input type="password" class="login-field" placeholder="mot de pass" id="login-pass" name="mdp">
-                            <label class="login-field-icon fui-lock" for="login-pass"></label>
+                            <input type="password" class="login-field" placeholder="mot de pass" id="login-password" name="mdp">
+                            <label class="login-field-icon fui-lock" for="login-password"></label>
                         </div>
                         <input type="submit" class="btn btn-primary btn-large btn-block" value="Connexion" />
                     </div>
@@ -92,8 +92,8 @@
             </div>
         </form>
     </div>
-    <script src="jquery-3.2.1.min.js"></script>
-    <script src="main.js"></script>
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js"integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="crossorigin="anonymous"></script>
+    <script src="/puppyCo/Model/main.js"></script>
     <script>
         function openNav() {
             document.getElementById("mySidenav").style.width = "250px";

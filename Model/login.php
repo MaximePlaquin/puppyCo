@@ -1,23 +1,25 @@
 <?php 
 include_once "database.php";
 class login {
-        public $msql;
 
     public function __construct() {
-        $this->msql = DbFactory::create("mysql", "Cesi");
     }
 
+    // je n'arrive pas à faire le login
     public function POST($request, $post) {
-        $query = "SELECT * FROM tpfinal_user WHERE PSEUDO='".$post['pseudo']."' AND MDP='".md5($post['mdp'])."'";
-        $result = $this->msql->select($query);
+        $this->mysqli = DbMySQL::getConnection();
+        echo $post;
+        $query = "SELECT * FROM USERS WHERE MAIL='".$post['mail']."' AND PASSWORD='".$post['password']."'";
+        $result = $this->mysqli->select($query);
         if($result->fetch_array()==NULL) {
             die(header("HTTP/1.0 404 not found"));
         }
         else {
             session_start();
-            $_SESSION['login'] = $_POST['pseudo'];
+            $_SESSION['password'] = $_POST['login'];
             http_response_code(200);
         }
+
     }
 }
 ?>

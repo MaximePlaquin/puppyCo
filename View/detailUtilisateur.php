@@ -74,7 +74,7 @@
             }
                function updateUser(){
                 $.ajax({
-                    url: "../back/rest.php?/users/"+getUrlParameter('id'),
+                    url: "/puppyCo/Model/rest.php?/user/update/"+getUrlParameter('id'),
                     type: "PUT",
                     success: function (data) {
                         alert('utilisateur mis à jour !');
