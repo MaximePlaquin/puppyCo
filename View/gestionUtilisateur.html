@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Gestion utilisateur</title>
+    <link rel="stylesheet" href="styleGestionUtil.css">
+    <script src="jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+    <div class="table-title">
+        <h3>Gestion utilisateur</h3>
+    </div>
+    <button type="button" class="btn btn-primary btn-large btn-block"><a href="creerUtilisateur.html">Ajouter un utilisateur!</a></button>
+    <table class="table-fill">
+        <thead>
+            <tr>
+                <th class="text-left">Pseudo</th>
+                <th class="text-left">Nom</th>
+                <th class="text-left">Prenom</th>
+                <th class="text-left">mdp</th>
+                <th class="text-left">last_maj</th>
+                <th class="text-left">detail</th>
+            </tr>
+        </thead>
+        <tbody id="bodyDetail" class="table-hover">
+           
+        </tbody>
+    </table>
+
+
+<script>
+$(document).ready(function () {
+        var $this = $(this);
+            $.ajax({
+                url: "../back/rest.php?/users",
+                type: "GET",
+                success: function (data) {
+                   var dataJson = JSON.parse(data);
+                    
+                   $(dataJson).each(function(index, element){
+                        $("#bodyDetail").append('<tr><td class="text-left">'+element['pseudo']+'</td><td class="text-left">'+element['nom']+'</td><td class="text-left">'+element['prenom']+'</td><td class="text-left">'+element['mdp']+'</td><td class="text-left">'+element['last_maj']+'</td><td class="text-left"><a href="detailUtilisateur.php?id='+element['id']+'">Detail</a></td></tr>');
+                   });
+
+
+                },
+                error: function (resultat, statut, erreur) {
+                    console.log('erreur');
+                }
+            });
+});
+
+</script>
+
+</body>
+
+</html>
