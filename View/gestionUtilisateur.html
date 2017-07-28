@@ -5,10 +5,13 @@
     <meta charset="utf-8">
     <title>Gestion utilisateur</title>
     <link rel="stylesheet" href="styleGestionUtil.css">
-    <script src="jquery-3.2.1.min.js"></script>
+   <script
+  src="http://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body>  
     <div class="table-title">
         <h3>Gestion utilisateur</h3>
     </div>
@@ -34,18 +37,20 @@
 $(document).ready(function () {
         var $this = $(this);
             $.ajax({
-                url: "../back/rest.php?/users",
+                url: "/puppyCo/Model/rest.php?/user/read",
                 type: "GET",
                 success: function (data) {
+                    console.log(data);
                    var dataJson = JSON.parse(data);
-                    
                    $(dataJson).each(function(index, element){
-                        $("#bodyDetail").append('<tr><td class="text-left">'+element['pseudo']+'</td><td class="text-left">'+element['nom']+'</td><td class="text-left">'+element['prenom']+'</td><td class="text-left">'+element['mdp']+'</td><td class="text-left">'+element['last_maj']+'</td><td class="text-left"><a href="detailUtilisateur.php?id='+element['id']+'">Detail</a></td></tr>');
+                
+                        $("#bodyDetail").append('<tr><td class="text-left">'+element['mail']+'</td><td class="text-left">'+element['nom']+'</td><td class="text-left">'+element['prenom']+'</td><td class="text-left">'+element['mdp']+'</td><td class="text-left">'+element['last_maj']+'</td><td class="text-left"><a href="detailUtilisateur.php?id='+element['id']+'">Detail</a></td></tr>');
                    });
 
 
                 },
                 error: function (resultat, statut, erreur) {
+                    console.log(resultat);
                     console.log('erreur');
                 }
             });
