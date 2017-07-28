@@ -47,7 +47,6 @@ class User {
         $this->cart_id = $this->mysqli->insert_id;
 
         $query = "INSERT INTO USERS (MAIL, PASSWORD, CART_ID, DELIVERY_INFO, STATUS) VALUES ('".$this->mail."', '".hash('sha256', $this->mdp)."', ".$this->cart_id.", ".$this->delivery_id.", '".$this->status."')";
-        echo $query."<br/>";
         $result =  $this->mysqli->query($query);
         $this->user_id = $this->mysqli->insert_id;
 
@@ -67,7 +66,6 @@ class User {
             $this->user_id = $id;
             $query = "SELECT * FROM USERS INNER JOIN DELIVERY_INFOS ON USERS.DELIVERY_INFO=DELIVERY_INFOS.ID WHERE USERS.ID = " .  $this->user_id;
             $result = $this->mysqli->query($query);  
-            echo $query;
             while($row = $result->fetch_array()) {
                 $mArray[] = $row;
             }

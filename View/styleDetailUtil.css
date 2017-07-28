@@ -1,0 +1,35 @@
+.login {
+margin: 20px auto;
+width: 223px;
+}
+.login-screen {
+background-color: #FFF;
+padding: 20px;
+border-radius: 5px
+}
+.login-form {
+text-align: center;
+}
+.control-group {
+margin-bottom: 10px;
+}
+body {
+    font-family: Arial;
+    background-color: #3498DB;
+}
+input {
+text-align: center;
+background-color: #ECF0F1;
+border: 2px solid transparent;
+border-radius: 3px;
+font-size: 16px;
+font-weight: 200;
+padding: 10px 0;
+width: 180px;
+transition: border .5s;
+}
+
+input:focus {
+border: 2px solid #3498DB;
+box-shadow: none;
+}
