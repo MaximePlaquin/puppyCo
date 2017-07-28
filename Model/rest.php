@@ -29,8 +29,6 @@ if (count($request) == 0 || null == $controller) {
 }
 
 else {
-  echo "<br/>---------------------------------------<br/>";
   $controller->$method($id);
-  echo "<br/>".$id;
 }
 ?>
