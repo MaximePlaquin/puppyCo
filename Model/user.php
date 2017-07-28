@@ -107,7 +107,7 @@ class User {
 
     //-------------------------------Update---------------------------------
     public function update($data) {
-        $mysqli = database::getConnection();
+        $this->mysqli = DbMySQL::getConnection();
 
         $query = "UPDATE USERS SET MAIL='".$data["mail"]."', PASSWORD='".$data["password"]."', STATUS='".$data["status"]."' WHERE ID=".$this->user_id;
         $result = $this->mysqli->query($query); 
@@ -115,7 +115,7 @@ class User {
         $query = "UPDATE DELIVERY_INFOS SET ADDRESS='".$data["address"]."', TYPE_CB='".$data["type_cb"]."', NUM_CB=".$data["num_cb"].", CRYPTO=".$data["crypto"].", POSTAL_CODE=".$data["postal_code"].", CITY='".$data["city"]."' WHERE ID=".$this->delivery_id;
         $result = $this->mysqli->query($query);  
 
-        $mysqli->close();
+        $this->mysqli->close();
         return $this->read($this->user_id);
     }
 
@@ -123,13 +123,15 @@ class User {
 
 
     //-------------------------------Delete---------------------------------
-    public function delete() {
-        $mysqli = database::getConnection();
+    public function delete($id) {
+        $this->mysqli = DbMySQL::getConnection();
 
-        $query = "DELETE FROM USERS WHERE ID=".$this->user_id;
-        $result = $this->mysqli->query($query); 
+        $query = "DELETE FROM USERS WHERE ID=".$id;
+        $result = $this->mysqli->query($query);
+        echo $query;
+        echo $this->mysqli->error;
 
-        $mysqli->close();
+        $this->mysqli->close();
     }
 
 

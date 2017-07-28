@@ -9,7 +9,7 @@ class DbMySQL {
 
 
     public function __construct() {
-        $this->mysqli = new mysqli("localhost", "root", "", "puppyco");
+        $this->mysqli = new mysqli("localhost", "root", "root", "puppyco");
         if($this->mysqli->connect_errno) {
             die("Erreur lors de la connexion : " . $this->mysqli->connect_errno);
         }
@@ -18,7 +18,7 @@ class DbMySQL {
 
 
     public static function getConnection() {
-        $sqli = new mysqli("localhost", "root", "", "puppyco");
+        $sqli = new mysqli("localhost", "root", "root", "puppyco");
         if($sqli->connect_errno) {
             die("Erreur lors de la connexion : " . $sqli->connect_errno);
         }
