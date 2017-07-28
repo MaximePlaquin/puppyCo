@@ -60,9 +60,10 @@
         };
             function deleteUser(){
                 $.ajax({
-                    url: "../back/rest.php?/users/"+getUrlParameter('id'),
+                    url: "/puppyCo/Model/rest.php?/user/delete/"+getUrlParameter('id'),
                     type: "DELETE",
                     success: function (data) {
+                        console.log(data);
                         alert('utilisateur supprimé !');
                         window.location.href = "gestionUtilisateur.html";
                     },

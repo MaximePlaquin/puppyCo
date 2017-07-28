@@ -5,10 +5,11 @@
     <meta charset="utf-8">
     <title>Gestion utilisateur</title>
     <link rel="stylesheet" href="styleGestionUtil.css">
-    <script src="http://code.jquery.com/jquery-2.2.4.min.js"integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
 </head>
 
-<body>  
+<body>
     <div class="table-title">
         <h3>Gestion utilisateur</h3>
     </div>
@@ -24,37 +25,34 @@
                 <th>num_cb</th>
                 <th>postal code</th>
                 <th>detail</th>
-                
+
             </tr>
         </thead>
         <tbody id="bodyDetail" class="table-hover">
-           
+
         </tbody>
     </table>
 
 
-<script>
-$(document).ready(function () {
-        var $this = $(this);
+    <script>
+        $(document).ready(function () {
+            var $this = $(this);
             $.ajax({
                 url: "/puppyCo/Model/rest.php?/user/read",
                 type: "GET",
                 success: function (data) {
-                    console.log(data);
-                   var dataJson = JSON.parse(data);
-                   $(dataJson).each(function(index, element){
-                       console.log(element['address']);
-                        $("#bodyDetail").append('<tr><td class="text-left">'+element['id']+'</td><td class="text-left">'+element['mail']+'</td><td class="text-left">'+element['status']+'</td><td class="text-left">'+element['address']+'</td><td class="text-left">'+element['type_cb']+'</td><td class="text-left">'+element['num_cb']+'</td><td class="text-left">'+element['postal_code']+'</td><td class="text-left"><a href="detailUtilisateur.php?id='+element['id']+'">Detail</a></td></tr>');
-                   });
+                    var dataJson = JSON.parse(data);
+                    $(dataJson).each(function (index, element) {
+                        $("#bodyDetail").append('<tr><td class="text-left">' + element['id'] + '</td><td class="text-left">' + element['mail'] + '</td><td class="text-left">' + element['status'] + '</td><td class="text-left">' + element['address'] + '</td><td class="text-left">' + element['type_cb'] + '</td><td class="text-left">' + element['num_cb'] + '</td><td class="text-left">' + element['postal_code'] + '</td><td class="text-left"><a href="detailUtilisateur.php?id=' + element['id'] + '">Detail</a></td></tr>');
+                    });
                 },
                 error: function (resultat, statut, erreur) {
-                    console.log(resultat);
                     console.log('erreur');
                 }
             });
-});
+        });
 
-</script>
+    </script>
 
 </body>
 

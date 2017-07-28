@@ -51,7 +51,7 @@ class User {
         $this->user_id = $this->mysqli->insert_id;
 
         $this->mysqli->commit();
-        $this->mysqli->close();
+        $this->mysqli->close()
     }
 
 
