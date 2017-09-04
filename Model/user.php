@@ -137,10 +137,8 @@ class User {
     public function delete($id) {
         $this->mysqli = DbMySQL::getConnection();
 
-        $query = "DELETE FROM USERS WHERE ID=".$id;
+        $query = "DELETE FROM USERS WHERE ID=".$id[0];
         $result = $this->mysqli->query($query);
-        echo $query;
-        echo $this->mysqli->error;
 
         $this->mysqli->close();
     }

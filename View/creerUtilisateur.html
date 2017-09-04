@@ -13,12 +13,10 @@
             <div class="login-screen">
                 <div class="control-group">
                     <input type="text" class="login-field" placeholder="mail" id="login-mail">
-                    <label class="login-field-icon fui-user" for="login-mail">Mail</label>
                 </div>
 
                 <div class="control-group">
-                    <input type="text" class="login-field" placeholder="mot de pass" id="login-pass">
-                    <label class="login-field-icon fui-lock" for="login-pass">Mot de pass</label>
+                    <input type="password" class="login-field" placeholder="mot de pass" id="login-pass">
                 </div>
                 <input type="" class="btn btn-primary btn-large btn-block" value="Annuler" onclick='window.location.href = "gestionUtilisateur.html"' />
                 <input type="submit" class="btn btn-primary btn-large btn-block" value="Valider la création" onclick="createUser()" />
@@ -28,17 +26,22 @@
     <script src="http://code.jquery.com/jquery-2.2.4.min.js"integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="crossorigin="anonymous"></script>
     <script>
         function createUser() {
-            $.ajax({
-                url: "/puppyCo/Model/rest.php?/user/create/"+ $('#login-mail').val() + "/" + $('#login-pass').val(),
-                type: "POST",
-                success: function (data) {
-                    alert('utilisateur créer !');
-                    window.location.href = "gestionUtilisateur.html";
-                },
-                error: function (resultat, statut, erreur) {
-                    console.log('erreur');
-                }
-            });
+            if ($('#login-mail').val() === '' || $('#login-pass').val() === '') {
+                alert('Les champs doivent êtres remplis');
+            } else {
+                $.ajax({
+                    url: "/puppyCo/Model/rest.php?/user/create/"+ $('#login-mail').val() + "/" + $('#login-pass').val(),
+                    type: "POST",
+                    success: function (data) {
+                        console.log(data);
+                        alert('utilisateur créer !');
+                        window.location.href = "gestionUtilisateur.html";
+                    },
+                    error: function (resultat, statut, erreur) {
+                        console.log('erreur',erreur);
+                    }
+                });
+            }
         }
     </script>
 </body>
