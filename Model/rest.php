@@ -16,11 +16,10 @@ $className = ucwords($request[0]);
 $controller = new $className();
 $method = ucwords($request[1]);
 
-$id=0;
+$params = [];
 if(sizeof($request)>2) {
-  $id = ucwords($request[2]);
+  $params = array_slice($request, 2);
 }
-//var_dump($controller);
 
 
 $_SERVER['REQUEST_METHOD']==="PUT" ? parse_str(file_get_contents("php://input", false , null, 0 , $_SERVER['CONTENT_LENGTH'] ), $_PUT): $_PUT=array();
@@ -29,7 +28,6 @@ if (count($request) == 0 || null == $controller) {
 }
 
 else {
-  $controller->$method($id);
-  file_put_contents("params.txt", $id);
+  $controller->$method($params);
 }
 ?>
