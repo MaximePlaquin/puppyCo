@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Detail utilisateur</title>
+    <link rel="stylesheet" href="styleDetailUtil.css">
+</head>
+
+<body>
+    <div class="login">
+        <div class="login-form">
+            <div class="login-screen">
+                <div class="control-group">
+                    <input type="text" class="login-field" placeholder="mail" id="login-mail">
+                    <label class="login-field-icon fui-user" for="login-mail">Mail</label>
+                </div>
+
+                <div class="control-group">
+                    <input type="text" class="login-field" placeholder="mot de pass" id="login-pass">
+                    <label class="login-field-icon fui-lock" for="login-pass">Mot de pass</label>
+                </div>
+                <input type="" class="btn btn-primary btn-large btn-block" value="Annuler" onclick='window.location.href = "gestionUtilisateur.html"' />
+                <input type="submit" class="btn btn-primary btn-large btn-block" value="Valider la création" onclick="createUser()" />
+            </div>
+        </div>
+    </div>
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js"integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="crossorigin="anonymous"></script>
+    <script>
+        function createUser() {
+            $.ajax({
+                url: "/puppyCo/Model/rest.php?/user/create/"+ $('#login-mail').val() + "/" + $('#login-pass').val(),
+                type: "POST",
+                success: function (data) {
+                    alert('utilisateur créer !');
+                    window.location.href = "gestionUtilisateur.html";
+                },
+                error: function (resultat, statut, erreur) {
+                    console.log('erreur');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

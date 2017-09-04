@@ -118,14 +118,13 @@ class User {
         $this->read(array_slice($data, 0, 1));
 
         $this->mysqli = DbMySQL::getConnection();
+
         $query = "UPDATE USERS SET MAIL='".$data[1]."', STATUS='".$data[2]."' WHERE ID=".$this->user_id;
+
         $result = $this->mysqli->query($query);
-        //echo $query;
-        file_put_contents("request.txt", $query, FILE_APPEND);
 
         $query = "UPDATE DELIVERY_INFOS SET ADDRESS='".str_replace("%20"," ",$data[3])."', TYPE_CB='".$data[4]."', NUM_CB=".$data[5].", CRYPTO=".$data[6].", POSTAL_CODE=".$data[7].", CITY='".$data[8]."' WHERE ID=".$this->delivery_id;
         $result = $this->mysqli->query($query);
-        file_put_contents("request.txt", $query, FILE_APPEND);  
         
         $this->mysqli->close();
         return $this->read($this->user_id);
