@@ -38,7 +38,7 @@
         $(document).ready(function () {
             var $this = $(this);
             $.ajax({
-                url: "/puppyCo/Model/rest.php?/user/read",
+                url: "/puppyCo/Model/rest.php?/user/read",  
                 type: "GET",
                 success: function (data) {
                     var dataJson = JSON.parse(data);

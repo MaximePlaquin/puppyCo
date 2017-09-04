@@ -107,7 +107,7 @@ class User {
         $this->mysqli = DbMySQL::getConnection();
         $this->read($this->user_id);
 
-        file_put_contents("requests.txt", $data->user_id);
+        file_put_contents("requests.txt", $this->user_id);
         $query = "UPDATE USERS SET MAIL='".$data["mail"]."', PASSWORD='".$data["password"]."', STATUS='".$data["status"]."' WHERE ID=".$this->user_id;
         $result = $this->mysqli->query($query);
 
