@@ -28,10 +28,10 @@ class User {
     
 
     //-------------------------------Create---------------------------------
-    public function create($mail, $mdp) {
+    public function create($data) {
         $this->mysqli = DbMySQL::getConnection();
-        $this->mail = $mail;
-        $this->mdp = $mdp;
+        $this->mail = $data[0];
+        $this->mdp = $data[1];
         $this->status = 'client';
 
         $query = "INSERT INTO DELIVERY_INFOS (ADDRESS, TYPE_CB, NUM_CB, CRYPTO, POSTAL_CODE, CITY) VALUES ('', '', 0, 0, 0, '')";
@@ -57,7 +57,18 @@ class User {
 
 
     //-------------------------------Read---------------------------------
-    public function read($id) {
+    public function read($data) {
+        if(is_array($data)) {
+            if(count($data) < 1) {
+                $id = null;
+            }
+            else {
+                $id = $data[0];
+            }
+        }
+        else {
+            $id = $data;
+        }
         $mArray = array();
         $this->mysqli = DbMySQL::getConnection();
 
@@ -104,6 +115,7 @@ class User {
 
     //-------------------------------Update---------------------------------
     public function update($data) {
+<<<<<<< HEAD
         $this->mysqli = DbMySQL::getConnection();
 <<<<<<< Updated upstream
         $this->read($this->user_id);
@@ -114,10 +126,19 @@ class User {
         file_put_contents("requests.txt", $this->user_id);
         $query = "UPDATE USERS SET MAIL='".$data["mail"]."', PASSWORD='".$data["password"]."', STATUS='".$data["status"]."' WHERE ID=".$this->user_id;
 <<<<<<< Updated upstream
-        $result = $this->mysqli->query($query);
+=======
+        $this->read(array_slice($data, 0, 1));
 
-        $query = "UPDATE DELIVERY_INFOS SET ADDRESS='".$data["address"]."', TYPE_CB='".$data["type_cb"]."', NUM_CB=".$data["num_cb"].", CRYPTO=".$data["crypto"].", POSTAL_CODE=".$data["postal_code"].", CITY='".$data["city"]."' WHERE ID=".$this->delivery_id;
+        $this->mysqli = DbMySQL::getConnection();
+        $query = "UPDATE USERS SET MAIL='".$data[1]."', PASSWORD='".$data[2]."', STATUS='".$data[3]."' WHERE ID=".$this->user_id;
+>>>>>>> 33d58981ebd4035aed92e7b8f0db9b5bac9516c3
         $result = $this->mysqli->query($query);
+        //echo $query;
+        //file_put_contents("request.txt", $query, FILE_APPEND);
+
+        $query = "UPDATE DELIVERY_INFOS SET ADDRESS='".$data[4]."', TYPE_CB='".$data[5]."', NUM_CB=".$data[6].", CRYPTO=".$data[7].", POSTAL_CODE=".$data[8].", CITY='".$data[9]."' WHERE ID=".$this->delivery_id;
+        $result = $this->mysqli->query($query);
+<<<<<<< HEAD
           
 
 =======
@@ -129,6 +150,10 @@ class User {
         file_put_contents("request.txt", $query, FILE_APPEND);  
         
 >>>>>>> Stashed changes
+=======
+        //file_put_contents("request.txt", $query, FILE_APPEND);  
+        
+>>>>>>> 33d58981ebd4035aed92e7b8f0db9b5bac9516c3
         $this->mysqli->close();
         return $this->read($this->user_id);
     }
