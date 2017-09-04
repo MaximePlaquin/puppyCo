@@ -83,11 +83,7 @@
             }
                function updateUser(){
                 $.ajax({
-<<<<<<< Updated upstream
-                    url: "/puppyCo/Model/rest.php?/user/update/"+userId+"/"+$('#login-mail').val()+"/"+ $('#login-status').val()+"/"+ $('#login-address').val()+"/"+ $('#login-typecb').val() +"/"+ $('#login-numcb').val()+"/"+ $('#login-postalcode').val() ,
-=======
                     url: "/puppyCo/Model/rest.php?/user/update/"+userId+"/"+$('#login-mail').val()+"/"+$('#login-status').val()+"/"+$('#login-address').val()+"/"+$('#login-typecb').val()+"/"+$('#login-numcb').val()+"/"+$('#login-crypto').val()+"/"+$('#login-postalcode').val()+"/"+$('#login-city').val(),
->>>>>>> Stashed changes
                     type: "PUT",
                     success: function (data) {
                         alert('utilisateur mis à jour !');
