@@ -51,9 +51,8 @@ class User {
         $this->user_id = $this->mysqli->insert_id;
 
         $this->mysqli->commit();
-        $this->mysqli->close()
+        $this->mysqli->close();
     }
-
 
 
 
@@ -106,12 +105,15 @@ class User {
     //-------------------------------Update---------------------------------
     public function update($data) {
         $this->mysqli = DbMySQL::getConnection();
+        $this->read($this->user_id);
 
+        file_put_contents("requests.txt", $data->user_id);
         $query = "UPDATE USERS SET MAIL='".$data["mail"]."', PASSWORD='".$data["password"]."', STATUS='".$data["status"]."' WHERE ID=".$this->user_id;
-        $result = $this->mysqli->query($query); 
+        $result = $this->mysqli->query($query);
 
         $query = "UPDATE DELIVERY_INFOS SET ADDRESS='".$data["address"]."', TYPE_CB='".$data["type_cb"]."', NUM_CB=".$data["num_cb"].", CRYPTO=".$data["crypto"].", POSTAL_CODE=".$data["postal_code"].", CITY='".$data["city"]."' WHERE ID=".$this->delivery_id;
-        $result = $this->mysqli->query($query);  
+        $result = $this->mysqli->query($query);
+          
 
         $this->mysqli->close();
         return $this->read($this->user_id);

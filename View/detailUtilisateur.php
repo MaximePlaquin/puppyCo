@@ -44,6 +44,7 @@
     </div>
     <script src="http://code.jquery.com/jquery-2.2.4.min.js"integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="crossorigin="anonymous"></script>
     <script>
+        var userId;
         var getUrlParameter = function getUrlParameter(sParam) {
             var sPageURL = decodeURIComponent(window.location.search.substring(1)),
                 sURLVariables = sPageURL.split('&'),
@@ -74,8 +75,9 @@
             }
                function updateUser(){
                 $.ajax({
-                    url: "/puppyCo/Model/rest.php?/user/update/"+getUrlParameter('id'),
+                    url: "/puppyCo/Model/rest.php?/user/update/",
                     type: "PUT",
+                    data: 'id='+ userId + '&mail=' +  $('#login-mail').val() + '&status=' + $('#login-status').val() + '&address=' +  $('#login-address').val() + '&type_cb=' + $('#login-typecb').val() + '&num_cb=' + $('#login-numcb').val() + '&postal_code=' + $('#login-postalcode').val() ,
                     success: function (data) {
                         alert('utilisateur mis à jour !');
                         window.location.href = "gestionUtilisateur.html";
@@ -86,6 +88,7 @@
                 });
             }
         $(document).ready(function () {
+            userId = getUrlParameter('id');
             $.ajax({
                 url: "/puppyCo/Model/rest.php?/user/read/"+getUrlParameter('id'),
                 type: "GET",
@@ -102,7 +105,7 @@
                     });
                 },
                 error: function (resultat, statut, erreur) {
-                    console.log('erreur');
+                    console.log('erreur', erreur);
                 }
             });
 
