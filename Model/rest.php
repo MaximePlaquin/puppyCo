@@ -28,11 +28,6 @@ if (count($request) == 0 || null == $controller) {
 }
 
 else {
-<<<<<<< HEAD
-  $controller->$method($id);
-  file_put_contents("params.txt", $id);
-=======
   $controller->$method($params);
->>>>>>> 33d58981ebd4035aed92e7b8f0db9b5bac9516c3
 }
 ?>

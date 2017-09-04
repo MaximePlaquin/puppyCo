@@ -115,45 +115,17 @@ class User {
 
     //-------------------------------Update---------------------------------
     public function update($data) {
-<<<<<<< HEAD
-        $this->mysqli = DbMySQL::getConnection();
-<<<<<<< Updated upstream
-        $this->read($this->user_id);
-=======
-        $this->read($data['id']);
->>>>>>> Stashed changes
-
-        file_put_contents("requests.txt", $this->user_id);
-        $query = "UPDATE USERS SET MAIL='".$data["mail"]."', PASSWORD='".$data["password"]."', STATUS='".$data["status"]."' WHERE ID=".$this->user_id;
-<<<<<<< Updated upstream
-=======
         $this->read(array_slice($data, 0, 1));
 
         $this->mysqli = DbMySQL::getConnection();
-        $query = "UPDATE USERS SET MAIL='".$data[1]."', PASSWORD='".$data[2]."', STATUS='".$data[3]."' WHERE ID=".$this->user_id;
->>>>>>> 33d58981ebd4035aed92e7b8f0db9b5bac9516c3
+        $query = "UPDATE USERS SET MAIL='".$data[1]."', STATUS='".$data[3]."' WHERE ID=".$this->user_id;
         $result = $this->mysqli->query($query);
         //echo $query;
         //file_put_contents("request.txt", $query, FILE_APPEND);
 
         $query = "UPDATE DELIVERY_INFOS SET ADDRESS='".$data[4]."', TYPE_CB='".$data[5]."', NUM_CB=".$data[6].", CRYPTO=".$data[7].", POSTAL_CODE=".$data[8].", CITY='".$data[9]."' WHERE ID=".$this->delivery_id;
         $result = $this->mysqli->query($query);
-<<<<<<< HEAD
-          
-
-=======
-        $result = $this->mysqli->query($query); 
-        file_put_contents("request.txt", $query, FILE_APPEND);
-
-        $query = "UPDATE DELIVERY_INFOS SET ADDRESS='".$data["address"]."', TYPE_CB='".$data["type_cb"]."', NUM_CB=".$data["num_cb"].", CRYPTO=".$data["crypto"].", POSTAL_CODE=".$data["postal_code"].", CITY='".$data["city"]."' WHERE ID=".$this->delivery_id;
-        $result = $this->mysqli->query($query);
-        file_put_contents("request.txt", $query, FILE_APPEND);  
         
->>>>>>> Stashed changes
-=======
-        //file_put_contents("request.txt", $query, FILE_APPEND);  
-        
->>>>>>> 33d58981ebd4035aed92e7b8f0db9b5bac9516c3
         $this->mysqli->close();
         return $this->read($this->user_id);
     }

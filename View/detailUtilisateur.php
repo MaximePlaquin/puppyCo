@@ -75,7 +75,7 @@
             }
                function updateUser(){
                 $.ajax({
-                    url: "/puppyCo/Model/rest.php?/user/update/",
+                    url: "/puppyCo/Model/rest.php?/user/update/"+userId+"/"+$('#login-mail').val()+"/"+ $('#login-status').val()+"/"+ $('#login-address').val()+"/"+ $('#login-typecb').val() +"/"+ $('#login-numcb').val()+"/"+ $('#login-postalcode').val() ,
                     type: "PUT",
                     data: 'id='+ userId + '&mail=' +  $('#login-mail').val() + '&status=' + $('#login-status').val() + '&address=' +  $('#login-address').val() + '&type_cb=' + $('#login-typecb').val() + '&num_cb=' + $('#login-numcb').val() + '&postal_code=' + $('#login-postalcode').val() ,
                     success: function (data) {
