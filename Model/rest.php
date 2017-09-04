@@ -30,5 +30,6 @@ if (count($request) == 0 || null == $controller) {
 
 else {
   $controller->$method($id);
+  file_put_contents("params.txt", $id);
 }
 ?>

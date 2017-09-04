@@ -25,7 +25,7 @@ class User {
     public function __construct() {
     }
 
-
+    
 
     //-------------------------------Create---------------------------------
     public function create($mail, $mdp) {
@@ -105,16 +105,30 @@ class User {
     //-------------------------------Update---------------------------------
     public function update($data) {
         $this->mysqli = DbMySQL::getConnection();
+<<<<<<< Updated upstream
         $this->read($this->user_id);
+=======
+        $this->read($data['id']);
+>>>>>>> Stashed changes
 
         file_put_contents("requests.txt", $this->user_id);
         $query = "UPDATE USERS SET MAIL='".$data["mail"]."', PASSWORD='".$data["password"]."', STATUS='".$data["status"]."' WHERE ID=".$this->user_id;
+<<<<<<< Updated upstream
         $result = $this->mysqli->query($query);
 
         $query = "UPDATE DELIVERY_INFOS SET ADDRESS='".$data["address"]."', TYPE_CB='".$data["type_cb"]."', NUM_CB=".$data["num_cb"].", CRYPTO=".$data["crypto"].", POSTAL_CODE=".$data["postal_code"].", CITY='".$data["city"]."' WHERE ID=".$this->delivery_id;
         $result = $this->mysqli->query($query);
           
 
+=======
+        $result = $this->mysqli->query($query); 
+        file_put_contents("request.txt", $query, FILE_APPEND);
+
+        $query = "UPDATE DELIVERY_INFOS SET ADDRESS='".$data["address"]."', TYPE_CB='".$data["type_cb"]."', NUM_CB=".$data["num_cb"].", CRYPTO=".$data["crypto"].", POSTAL_CODE=".$data["postal_code"].", CITY='".$data["city"]."' WHERE ID=".$this->delivery_id;
+        $result = $this->mysqli->query($query);
+        file_put_contents("request.txt", $query, FILE_APPEND);  
+        
+>>>>>>> Stashed changes
         $this->mysqli->close();
         return $this->read($this->user_id);
     }
