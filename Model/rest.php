@@ -16,6 +16,7 @@ $className = ucwords($request[0]);
 $controller = new $className();
 $method = ucwords($request[1]);
 
+
 $params = [];
 if(sizeof($request)>2) {
   $params = array_slice($request, 2);

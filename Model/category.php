@@ -4,13 +4,8 @@ include_once "database.php";
 
 
 class Category {
-    public $reference;
-    public $category_id;
-    public $category;
-    public $title;
-    public $price;
-    public $description;
-    public $images;
+    public $id;
+    public $name;
     
     public $mysqli;
 

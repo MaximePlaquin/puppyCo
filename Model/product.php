@@ -23,7 +23,12 @@ class Product {
 
 
     //-------------------------------Create---------------------------------
-    public function create($reference, $title, $price, $descr, $category) {
+    public function create($data) {
+        $reference = $data[0];
+        $title = $data[1];
+        $price = $data[2];
+        $descr = $data[3];
+        $category = $data[4];
         $this->mysqli = DbMySQL::getConnection();
         $this->reference = $reference;
         $this->category = $category;
@@ -53,7 +58,8 @@ class Product {
 
 
     //-------------------------------Read---------------------------------
-    public function read($ref) {
+    public function read($data) {
+        $ref = $data[0];
         $mArray = array();
         $this->mysqli = DbMySQL::getConnection();
 

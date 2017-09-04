@@ -36,6 +36,14 @@
                     <input type="text" class="login-field" placeholder="postal code" id="login-postalcode">
                     <label class="login-field-icon fui-lock" for="login-postalcode">type_cb</label>
                 </div>
+                <div class="control-group">
+                    <input type="text" class="login-field" placeholder="crypto" id="login-crypto">
+                    <label class="login-field-icon fui-lock" for="login-crypto">crypto</label>
+                </div>
+                <div class="control-group">
+                    <input type="text" class="login-field" placeholder="city" id="login-city">
+                    <label class="login-field-icon fui-lock" for="login-city">city</label>
+                </div>
                 <input type="" class="btn btn-primary btn-large btn-block" value="Annuler" onclick='window.location.href = "gestionUtilisateur.html"' />
                 <input type="submit" class="btn btn-primary btn-large btn-block" value="supprimer" onclick="deleteUser()" />
                 <input type="submit" class="btn btn-primary btn-large btn-block" value="Valider les changements" onclick="updateUser()" />
@@ -75,9 +83,12 @@
             }
                function updateUser(){
                 $.ajax({
+<<<<<<< Updated upstream
                     url: "/puppyCo/Model/rest.php?/user/update/"+userId+"/"+$('#login-mail').val()+"/"+ $('#login-status').val()+"/"+ $('#login-address').val()+"/"+ $('#login-typecb').val() +"/"+ $('#login-numcb').val()+"/"+ $('#login-postalcode').val() ,
+=======
+                    url: "/puppyCo/Model/rest.php?/user/update/"+userId+"/"+$('#login-mail').val()+"/"+$('#login-status').val()+"/"+$('#login-address').val()+"/"+$('#login-typecb').val()+"/"+$('#login-numcb').val()+"/"+$('#login-crypto').val()+"/"+$('#login-postalcode').val()+"/"+$('#login-city').val(),
+>>>>>>> Stashed changes
                     type: "PUT",
-                    data: 'id='+ userId + '&mail=' +  $('#login-mail').val() + '&status=' + $('#login-status').val() + '&address=' +  $('#login-address').val() + '&type_cb=' + $('#login-typecb').val() + '&num_cb=' + $('#login-numcb').val() + '&postal_code=' + $('#login-postalcode').val() ,
                     success: function (data) {
                         alert('utilisateur mis à jour !');
                         window.location.href = "gestionUtilisateur.html";
@@ -102,6 +113,8 @@
                         $('#login-typecb').val(element['type_cb']);
                         $('#login-numcb').val(element['num_cb']);
                         $('#login-postalcode').val(element['postal_code']);
+                        $('#login-crypto').val(element['crypto']);
+                        $('#login-city').val(element['city']);
                     });
                 },
                 error: function (resultat, statut, erreur) {

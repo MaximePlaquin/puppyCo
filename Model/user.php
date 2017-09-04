@@ -118,13 +118,21 @@ class User {
         $this->read(array_slice($data, 0, 1));
 
         $this->mysqli = DbMySQL::getConnection();
+<<<<<<< Updated upstream
         $query = "UPDATE USERS SET MAIL='".$data[1]."', STATUS='".$data[3]."' WHERE ID=".$this->user_id;
+=======
+        $query = "UPDATE USERS SET MAIL='".$data[1]."', STATUS='".$data[2]."' WHERE ID=".$this->user_id;
+>>>>>>> Stashed changes
         $result = $this->mysqli->query($query);
         //echo $query;
-        //file_put_contents("request.txt", $query, FILE_APPEND);
+        file_put_contents("request.txt", $query, FILE_APPEND);
 
-        $query = "UPDATE DELIVERY_INFOS SET ADDRESS='".$data[4]."', TYPE_CB='".$data[5]."', NUM_CB=".$data[6].", CRYPTO=".$data[7].", POSTAL_CODE=".$data[8].", CITY='".$data[9]."' WHERE ID=".$this->delivery_id;
+        $query = "UPDATE DELIVERY_INFOS SET ADDRESS='".$data[3]."', TYPE_CB='".$data[4]."', NUM_CB=".$data[5].", CRYPTO=".$data[6].", POSTAL_CODE=".$data[7].", CITY='".$data[8]."' WHERE ID=".$this->delivery_id;
         $result = $this->mysqli->query($query);
+<<<<<<< Updated upstream
+=======
+        file_put_contents("request.txt", $query, FILE_APPEND);  
+>>>>>>> Stashed changes
         
         $this->mysqli->close();
         return $this->read($this->user_id);
