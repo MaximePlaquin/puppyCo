@@ -59,9 +59,13 @@ class Product {
 
     //-------------------------------Read---------------------------------
     public function read($data) {
-        $ref = $data[0];
+        $ref = 0;
         $mArray = array();
         $this->mysqli = DbMySQL::getConnection();
+
+        if(count($data) == 1) {
+            $ref = $data[0];
+        }
 
         if($ref!=null && $ref>0) {
             $this->reference = $ref;
@@ -80,7 +84,13 @@ class Product {
         }
 
         else {
-            $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID";
+            if(count($data) > 1) {
+                //retourne data[1] elements a partir de data[0]
+                $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID  ORDER BY REFERENCE ASC LIMIT ".$data[1]." OFFSET ".$data[0];
+            }
+            else {
+                $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID";
+            }
             $result = $this->mysqli->query($query);  
             
             while($row = $result->fetch_array()) {
@@ -113,11 +123,13 @@ class Product {
 
 
     //-------------------------------Delete---------------------------------
-    public function delete() {
+    public function delete($data) {
         $this->mysqli = DbMySQL::getConnection();
 
-        $query = "DELETE FROM PRODUCTS WHERE ID=".$this->user_id;
-        $result = $this->mysqli->query($query); 
+        foreach($data as $d) {
+            $query = "DELETE FROM PRODUCTS WHERE ID=".$d;
+            $result = $this->mysqli->query($query); 
+        }
 
         $mysqli->close();
     }
@@ -140,7 +152,7 @@ class Product {
 
 
 
-    //-------------------------------addImage---------------------------------
+    //-------------------------------getRandom---------------------------------
     public function getRandom($data) {
         $this->mysqli = DbMySQL::getConnection();
 
@@ -157,8 +169,39 @@ class Product {
         $this->mysqli->close();
         echo $json;
         return $json;
-
     }
+
+
+
+
+
+    //-------------------------------Search---------------------------------
+    public function search($data) {
+        $this->mysqli = DbMySQL::getConnection();
+
+        $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID WHERE TITLE LIKE '%".$data[0]."%' OR DESCRIPTION LIKE '%".$data[0]."%'";
+        $result = $this->mysqli->query($query);  
+            
+        while($row = $result->fetch_array()) {
+            $mArray[] = $row;
+        }
+        $json = json_encode($mArray);
+
+
+        $this->mysqli->commit();
+        $this->mysqli->close();
+        echo $json;
+        return $json;
+    }
+
+
+
+
+
+
+
+
+
 
 }
 
