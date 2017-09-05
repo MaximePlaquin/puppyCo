@@ -80,7 +80,7 @@ class Product {
         }
 
         else {
-            $query = "SELECT * FROM USERS INNER JOIN DELIVERY_INFOS ON USERS.DELIVERY_INFO=DELIVERY_INFOS.ID";
+            $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID";
             $result = $this->mysqli->query($query);  
             
             while($row = $result->fetch_array()) {
@@ -101,13 +101,10 @@ class Product {
 
     //-------------------------------Update---------------------------------
     public function update($data) {
-        $mysqli = database::getConnection();
+        $this->mysqli = DbMySQL::getConnection();
 
-        $query = "UPDATE USERS SET MAIL='".$data["mail"]."', PASSWORD='".$data["password"]."', STATUS='".$data["status"]."' WHERE ID=".$this->user_id;
+        $query = "UPDATE PRODUCTS SET CATEGORY_ID=".$data[1].", TITLE='".$data[2]."', PRICE=".$data[3].", DESCRIPTION=".$data[4]." WHERE REFERENCE=".$data[0];
         $result = $this->mysqli->query($query); 
-
-        $query = "UPDATE DELIVERY_INFOS SET ADDRESS='".$data["address"]."', TYPE_CB='".$data["type_cb"]."', NUM_CB=".$data["num_cb"].", CRYPTO=".$data["crypto"].", POSTAL_CODE=".$data["postal_code"].", CITY='".$data["city"]."' WHERE ID=".$this->delivery_id;
-        $result = $this->mysqli->query($query);  
 
         $mysqli->close();
         return $this->read($this->user_id);
@@ -115,12 +112,11 @@ class Product {
 
 
 
-
     //-------------------------------Delete---------------------------------
     public function delete() {
-        $mysqli = database::getConnection();
+        $this->mysqli = DbMySQL::getConnection();
 
-        $query = "DELETE FROM USERS WHERE ID=".$this->user_id;
+        $query = "DELETE FROM PRODUCTS WHERE ID=".$this->user_id;
         $result = $this->mysqli->query($query); 
 
         $mysqli->close();
@@ -128,9 +124,42 @@ class Product {
 
 
 
+
+
+    //-------------------------------addImage---------------------------------
+    public function addImage($data) {
+        $this->mysqli = DbMySQL::getConnection();
+
+        $query = "INSERT INTO IMAGES (PRODUCT_REFERENCE, URL) VALUES (".$data[0].", '".$data[1]."')";
+        $result = $this->mysqli->query($query); 
+
+        $mysqli->close();
+    }
+
+
+
+
+
+    //-------------------------------addImage---------------------------------
+    public function getRandom($data) {
+        $this->mysqli = DbMySQL::getConnection();
+
+        $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID ORDER BY RAND() LIMIT ".$data[0];
+        $result = $this->mysqli->query($query);  
+            
+        while($row = $result->fetch_array()) {
+            $mArray[] = $row;
+        }
+        $json = json_encode($mArray);
+
+
+        $this->mysqli->commit();
+        $this->mysqli->close();
+        echo $json;
+        return $json;
+
+    }
+
 }
 
 
-
-$me = new Product();
-$me->read(564452);

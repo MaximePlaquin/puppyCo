@@ -122,18 +122,12 @@ class User {
         $query = "UPDATE USERS SET MAIL='".$data[1]."', STATUS='".$data[2]."' WHERE ID=".$this->user_id;
 
         $result = $this->mysqli->query($query);
-<<<<<<< Updated upstream
-
-        $query = "UPDATE DELIVERY_INFOS SET ADDRESS='".str_replace("%20"," ",$data[3])."', TYPE_CB='".$data[4]."', NUM_CB=".$data[5].", CRYPTO=".$data[6].", POSTAL_CODE=".$data[7].", CITY='".$data[8]."' WHERE ID=".$this->delivery_id;
-        $result = $this->mysqli->query($query);
-=======
         //echo $query;
         //file_put_contents("request.txt", $query, FILE_APPEND);
 
         $query = "UPDATE DELIVERY_INFOS SET ADDRESS='".str_replace("%20"," ",$data[3])."', TYPE_CB='".$data[4]."', NUM_CB=".$data[5].", CRYPTO=".$data[6].", POSTAL_CODE=".$data[7].", CITY='".$data[8]."' WHERE ID=".$this->delivery_id;
         $result = $this->mysqli->query($query);
         //file_put_contents("request.txt", $query, FILE_APPEND);  
->>>>>>> Stashed changes
         
         $this->mysqli->close();
         return $this->read($this->user_id);
@@ -143,11 +137,14 @@ class User {
 
 
     //-------------------------------Delete---------------------------------
-    public function delete($id) {
+    public function delete($data) {
         $this->mysqli = DbMySQL::getConnection();
 
-        $query = "DELETE FROM USERS WHERE ID=".$id[0];
+        $query = "DELETE FROM USERS WHERE ID=".$data[0];
         $result = $this->mysqli->query($query);
+        
+        //echo $query;
+        //echo $this->mysqli->error;
 
         $this->mysqli->close();
     }
