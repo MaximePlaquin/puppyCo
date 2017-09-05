@@ -33,16 +33,16 @@
                     <label class="login-field-icon fui-lock" for="login-numcb">num_cb</label>
                 </div>
                 <div class="control-group">
-                    <input type="text" class="login-field" placeholder="postal code" id="login-postalcode">
-                    <label class="login-field-icon fui-lock" for="login-postalcode">type_cb</label>
-                </div>
-                <div class="control-group">
                     <input type="text" class="login-field" placeholder="crypto" id="login-crypto">
                     <label class="login-field-icon fui-lock" for="login-crypto">crypto</label>
                 </div>
                 <div class="control-group">
                     <input type="text" class="login-field" placeholder="city" id="login-city">
                     <label class="login-field-icon fui-lock" for="login-city">city</label>
+                <div class="control-group">
+                    <input type="text" class="login-field" placeholder="postal code" id="login-postalcode">
+                    <label class="login-field-icon fui-lock" for="login-postalcode">code postal</label>
+                </div>
                 </div>
                 <input type="" class="btn btn-primary btn-large btn-block" value="Annuler" onclick='window.location.href = "gestionUtilisateur.html"' />
                 <input type="submit" class="btn btn-primary btn-large btn-block" value="supprimer" onclick="deleteUser()" />
@@ -103,14 +103,14 @@
                     var dataJson = JSON.parse(data);
                     console.log(dataJson);
                     $(dataJson).each(function(index, element){
-                        $('#login-mail').val(element['mail']);
-                        $('#login-status').val(element['status']);
-                        $('#login-address').val(element['address']);
-                        $('#login-typecb').val(element['type_cb']);
-                        $('#login-numcb').val(element['num_cb']);
-                        $('#login-postalcode').val(element['postal_code']);
-                        $('#login-crypto').val(element['crypto']);
-                        $('#login-city').val(element['city']);
+                        $('#login-mail').val(element['MAIL']);
+                        $('#login-status').val(element['STATUS']);
+                        $('#login-address').val(element['ADDRESS']);
+                        $('#login-typecb').val(element['TYPE_CB']);
+                        $('#login-numcb').val(element['NUM_CB']);
+                        $('#login-postalcode').val(element['POSTAL_CODE']);
+                        $('#login-crypto').val(element['CRYPTO']);
+                        $('#login-city').val(element['CITY']);
                     });
                 },
                 error: function (resultat, statut, erreur) {

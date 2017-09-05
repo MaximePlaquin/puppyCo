@@ -105,6 +105,34 @@
             document.getElementById("main").style.marginLeft = "0";
 
         }
+
+
+
+        $(document).ready(function () {
+
+            $.ajax({
+                url: "/puppyCo/Model/rest.php?/product/getrandom/6",
+                type: "GET",
+                success: function (data) {
+                    var dataJson = JSON.parse(data);
+                    console.log(dataJson);
+                    $(dataJson).each(function(index, element){
+                        $('#login-mail').val(element['mail']);
+                        $('#login-status').val(element['status']);
+                        $('#login-address').val(element['address']);
+                        $('#login-typecb').val(element['type_cb']);
+                        $('#login-numcb').val(element['num_cb']);
+                        $('#login-postalcode').val(element['postal_code']);
+                        $('#login-crypto').val(element['crypto']);
+                        $('#login-city').val(element['city']);
+                    });
+                },
+                error: function (resultat, statut, erreur) {
+                    console.log('erreur', erreur);
+                }
+            });
+
+        });
     </script>
 </body>
 

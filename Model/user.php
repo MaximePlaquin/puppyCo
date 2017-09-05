@@ -74,7 +74,7 @@ class User {
 
         if($id!=null && $id>0) {
             $this->user_id = $id;
-            $query = "SELECT * FROM USERS INNER JOIN DELIVERY_INFOS ON USERS.DELIVERY_INFO=DELIVERY_INFOS.ID WHERE USERS.ID = " .  $this->user_id;
+            $query = "SELECT USERS.ID, MAIL, PASSWORD, CART_ID, DELIVERY_INFO, STATUS, ADDRESS, TYPE_CB, NUM_CB, CRYPTO, POSTAL_CODE, CITY FROM USERS INNER JOIN DELIVERY_INFOS ON USERS.DELIVERY_INFO=DELIVERY_INFOS.ID WHERE USERS.ID = " .  $this->user_id;
             $result = $this->mysqli->query($query);  
             while($row = $result->fetch_array()) {
                 $mArray[] = $row;
@@ -84,17 +84,17 @@ class User {
             $this->cart_id = $mArray[0][3];
             $this->delivery_id = $mArray[0][4];
             $this->status = $mArray[0][5];
-            $this->address = $mArray[0][7];
-            $this->type_cb = $mArray[0][8];
-            $this->num_cb = $mArray[0][9];
-            $this->crypto = $mArray[0][10];
-            $this->postal_code = $mArray[0][11];
-            $this->city = $mArray[0][12];
+            $this->address = $mArray[0][6];
+            $this->type_cb = $mArray[0][7];
+            $this->num_cb = $mArray[0][8];
+            $this->crypto = $mArray[0][9];
+            $this->postal_code = $mArray[0][10];
+            $this->city = $mArray[0][11];
             $json = json_encode($mArray);
         }
 
         else {
-            $query = "SELECT * FROM USERS INNER JOIN DELIVERY_INFOS ON USERS.DELIVERY_INFO=DELIVERY_INFOS.ID";
+            $query = "SELECT USERS.ID, MAIL, PASSWORD, CART_ID, DELIVERY_INFO, STATUS, ADDRESS, TYPE_CB, NUM_CB, CRYPTO, POSTAL_CODE, CITY FROM USERS INNER JOIN DELIVERY_INFOS ON USERS.DELIVERY_INFO=DELIVERY_INFOS.ID";
             $result = $this->mysqli->query($query);  
             
             while($row = $result->fetch_array()) {
@@ -103,7 +103,7 @@ class User {
             $json = json_encode($mArray);
         }
 
-
+        //var_dump($json);
         $this->mysqli->commit();
         $this->mysqli->close();
         echo $json;
