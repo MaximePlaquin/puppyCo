@@ -69,7 +69,7 @@ class Product {
 
         if($ref!=null && $ref>0) {
             $this->reference = $ref;
-            $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID WHERE PRODUCTS.REFERENCE = " .  $this->reference;
+            $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID INNER JOIN IMAGES ON PRODUCTS.REFERENCE=IMAGES.PRODUCT_REFERENCE WHERE PRODUCTS.REFERENCE = " .  $this->reference;
             $result = $this->mysqli->query($query);  
             //echo $query;
             while($row = $result->fetch_array()) {
@@ -86,10 +86,10 @@ class Product {
         else {
             if(count($data) > 1) {
                 //retourne data[1] elements a partir de data[0]
-                $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID  ORDER BY REFERENCE ASC LIMIT ".$data[1]." OFFSET ".$data[0];
+                $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID INNER JOIN IMAGES ON PRODUCTS.REFERENCE=IMAGES.PRODUCT_REFERENCE  ORDER BY REFERENCE ASC LIMIT ".$data[1]." OFFSET ".$data[0];
             }
             else {
-                $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID";
+                $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID INNER JOIN IMAGES ON PRODUCTS.REFERENCE=IMAGES.PRODUCT_REFERENCE";
             }
             $result = $this->mysqli->query($query);  
             
@@ -156,7 +156,7 @@ class Product {
     public function getRandom($data) {
         $this->mysqli = DbMySQL::getConnection();
 
-        $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID ORDER BY RAND() LIMIT ".$data[0];
+        $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID INNER JOIN IMAGES ON PRODUCTS.REFERENCE=IMAGES.PRODUCT_REFERENCE ORDER BY RAND() LIMIT ".$data[0];
         $result = $this->mysqli->query($query);  
             
         while($row = $result->fetch_array()) {
@@ -179,7 +179,7 @@ class Product {
     public function search($data) {
         $this->mysqli = DbMySQL::getConnection();
 
-        $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID WHERE TITLE LIKE '%".$data[0]."%' OR DESCRIPTION LIKE '%".$data[0]."%'";
+        $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID INNER JOIN IMAGES ON PRODUCTS.REFERENCE=IMAGES.PRODUCT_REFERENCE WHERE TITLE LIKE '%".$data[0]."%' OR DESCRIPTION LIKE '%".$data[0]."%'";
         $result = $this->mysqli->query($query);  
             
         while($row = $result->fetch_array()) {

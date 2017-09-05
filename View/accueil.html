@@ -24,48 +24,7 @@
             </ul>
         </nav>
         <div class="categorie">
-            <div class="container-card">
-                <div class="card">
-                    <div class="app-title">
-                        <h1>catégorie 1</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="container-card">
-                <div class="card">
-                    <div class="app-title">
-                        <h1>catégorie 2</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="container-card">
-                <div class="card">
-                    <div class="app-title">
-                        <h1>catégorie 3</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="container-card">
-                <div class="card">
-                    <div class="app-title">
-                        <h1>catégorie 4</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="container-card">
-                <div class="card">
-                    <div class="app-title">
-                        <h1>catégorie 5</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="container-card">
-                <div class="card">
-                    <div class="app-title">
-                        <h1>catégorie 6</h1>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
     <div id="mySidenav" class="sidenav">
@@ -116,15 +75,8 @@
                 success: function (data) {
                     var dataJson = JSON.parse(data);
                     console.log(dataJson);
-                    $(dataJson).each(function(index, element){
-                        $('#login-mail').val(element['mail']);
-                        $('#login-status').val(element['status']);
-                        $('#login-address').val(element['address']);
-                        $('#login-typecb').val(element['type_cb']);
-                        $('#login-numcb').val(element['num_cb']);
-                        $('#login-postalcode').val(element['postal_code']);
-                        $('#login-crypto').val(element['crypto']);
-                        $('#login-city').val(element['city']);
+                    $(dataJson).each(function (index, element) {
+                        $(".categorie").append('<div class="container-card"><div class="card"><div class="app-title"><img src="'+element['url']+'"><h1>'+element['title']+'</h1></div></div></div>');
                     });
                 },
                 error: function (resultat, statut, erreur) {

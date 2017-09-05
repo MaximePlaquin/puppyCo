@@ -27,12 +27,14 @@ body {
 .card{
     background-color: #FFF;
     padding: 20px;
-    border-radius: 5px
+    border-radius: 5px;
+    overflow: hidden;
 }
 .container-card{
     margin: 20px auto;
     width: 302px;
     display: inline-flex;
+    overflow: hidden;
 }
 .categorie{
     padding: 0 0 0 48px;
