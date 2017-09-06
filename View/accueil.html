@@ -87,7 +87,7 @@
                     var dataJson = JSON.parse(data);
                     console.log(dataJson);
                     $(dataJson).each(function (index, element) {
-                        $(".categorie").append('<div class="container-card"><div class="card"><div class="app-title"><img src="'+element['url']+'"><h1>'+element['title']+'</h1></div></div></div>');
+                        $(".categorie").append('<a href="produit.html?ref=' + element['REFERENCE'] + '"><div class="container-card"><div class="card"><div class="app-title"><img src="'+element['URL']+'"><h1>'+element['TITLE']+'</h1></div></div></div></a>');
                     });
                 },
                 error: function (resultat, statut, erreur) {

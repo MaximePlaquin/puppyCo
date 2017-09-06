@@ -43,7 +43,7 @@
                 success: function (data) {
                     var dataJson = JSON.parse(data);
                     $(dataJson).each(function (index, element) {
-                        $("#bodyDetail").append('<tr><td class="text-left">' + element['ID'] + '</td><td class="text-left">' + element['MAIL'] + '</td><td class="text-left">' + element['STATUS'] + '</td><td class="text-left">' + element['ADDRESS'] + '</td><td class="text-left">' + element['TYPE_CB'] + '</td><td class="text-left">' + element['NUM_CB'] + '</td><td class="text-left">' + element['POSTAL_CODE'] + '</td><td class="text-left"><a href="detailUtilisateur.php?id=' + element['ID'] + '">Detail</a></td></tr>');
+                        $("#bodyDetail").append('<tr><td class="text-left">' + element['ID'] + '</td><td class="text-left">' + element['MAIL'] + '</td><td class="text-left">' + element['STATUS'] + '</td><td class="text-left">' + element['ADDRESS'] + '</td><td class="text-left">' + element['TYPE_CB'] + '</td><td class="text-left">' + element['NUM_CB'] + '</td><td class="text-left">' + element['POSTAL_CODE'] + '</td><td class="text-left"><a href="detailUtilisateur.html?id=' + element['ID'] + '">Detail</a></td></tr>');
                     });
                 },
                 error: function (resultat, statut, erreur) {

@@ -156,7 +156,7 @@ class Product {
     public function getRandom($data) {
         $this->mysqli = DbMySQL::getConnection();
 
-        $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID INNER JOIN IMAGES ON PRODUCTS.REFERENCE=IMAGES.PRODUCT_REFERENCE ORDER BY RAND() LIMIT ".$data[0];
+        $query = "SELECT URL, TITLE, PRODUCTS.REFERENCE FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID INNER JOIN IMAGES ON PRODUCTS.REFERENCE=IMAGES.PRODUCT_REFERENCE ORDER BY RAND() LIMIT ".$data[0];
         $result = $this->mysqli->query($query);  
             
         while($row = $result->fetch_array()) {
