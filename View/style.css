@@ -27,14 +27,12 @@ body {
 .card{
     background-color: #FFF;
     padding: 20px;
-    border-radius: 5px;
-    overflow: hidden;
+    border-radius: 5px
 }
 .container-card{
     margin: 20px auto;
     width: 302px;
     display: inline-flex;
-    overflow: hidden;
 }
 .categorie{
     padding: 0 0 0 48px;
@@ -118,6 +116,18 @@ box-shadow: none;
 }
 
 
+.tableau {
+    margin: auto;
+    margin-top: 100px;
+    border: 1px solid black;
+}
+
+.tableau tr, td, th{
+    text-align: center;
+    border: 1px solid #B72D57;
+}
+
+
 
 .sidenav {
     height: 100%;
@@ -125,7 +135,7 @@ box-shadow: none;
     position: fixed;
     z-index: 1;
     top: 0;
-    left: 0;
+    right: 0;
     background-color: #111;
     overflow-x: hidden;
     transition: 0.5s;

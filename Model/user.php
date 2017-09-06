@@ -166,6 +166,7 @@ class User {
         else {
             session_start();
             $_SESSION['userID'] = $row[0];
+            echo "Connexion reussie";
         }
 
         $this->mysqli->close();

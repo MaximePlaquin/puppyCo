@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Accueil Puppy</title>
+    <title>Panier</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -23,9 +23,21 @@
             <a style="cursor:pointer; position: fixed; right: 0;padding: 10px 14px 0 0; color: white;" onclick="openNav()">&#9776; Connexion</a>
             </ul>
         </nav>
-        <div class="categorie">
-
-        </div>
+        <table class="tableau">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Reference</th>
+                        <th>Title</th>
+                        <th>Prix unitaire</th>
+                        <th>Quantite</th>
+                        <th>Prix total</th>
+                    </tr>
+                </thead>
+                <tbody id="bodyDetail" class="table-hover">
+        
+                </tbody>
+            </table>
     </div>
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -64,30 +76,16 @@
         }
 
 
-        function checkLogs() {
-            console.log("oiu", "/puppyCo/Model/rest.php?/user/connect/"+$("#email").val()+"/"+$("#mdp").val());
-            $.ajax({
-                url: "/puppyCo/Model/rest.php?/user/connect/"+$("#email").val()+"/"+$("#mdp").val(),
-                type: "GET",
-                success: function (data) {
-                    console.log('erreur', data);
-                },
-                error: function (resultat, statut, erreur) {
-                    console.log('erreur', erreur);
-                }
-            });
-        }
-
         $(document).ready(function () {
 
             $.ajax({
-                url: "/puppyCo/Model/rest.php?/product/getrandom/6",
+                url: "/puppyCo/Model/rest.php?/cart/getProductsFromUser",
                 type: "GET",
                 success: function (data) {
                     var dataJson = JSON.parse(data);
                     console.log(dataJson);
                     $(dataJson).each(function (index, element) {
-                        $(".categorie").append('<div class="container-card"><div class="card"><div class="app-title"><img src="'+element['url']+'"><h1>'+element['title']+'</h1></div></div></div>');
+                        $("#bodyDetail").append('<tr><td class="text-left"><img height="50px" width="50px" src="' + element['URL'] + '"/></td><td class="text-left">' + element['REFERENCE'] + '</td><td class="text-left">' + element['TITLE'] + '</td><td class="text-left">' + element['PRICE'] + '</td><td class="text-left">' + element['QUANTITY'] + '</td><td class="text-left">' + element['TOTAL_PRICE'] + '</td><td class="text-left"><a href="detailUtilisateur.php?id=' + element['REFERENCE'] + '">Detail</a></td></tr>');
                     });
                 },
                 error: function (resultat, statut, erreur) {

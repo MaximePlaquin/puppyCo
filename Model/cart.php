@@ -55,7 +55,7 @@ class Cart {
 
         if($id!=null && $id>0) {
             $this->cart_id = $id;
-            $query = "SELECT * FROM CARTS INNER JOIN CART_PRODUCTS ON CARTS.ID = CART_PRODUCTS.CART_ID INNER JOIN PRODUCTS ON PRODUCTS.REFERENCE = CART_PRODUCTS.PRODUCT_REFERENCE WHERE CARTS.ID = " .  $this->cart_id . " ORDER BY CARTS.ID ASC";
+            $query = "SELECT * FROM CARTS INNER JOIN CART_PRODUCTS ON CARTS.ID = CART_PRODUCTS.CART_ID INNER JOIN PRODUCTS ON PRODUCTS.REFERENCE = CART_PRODUCTS.PRODUCT_REFERENCE WHERE CARTS.ID = " .  $id . " ORDER BY CARTS.ID ASC";
             //echo $query;
             $result = $this->mysqli->query($query);  
             while($row = $result->fetch_array()) {
@@ -80,6 +80,35 @@ class Cart {
         echo $json;
         return $json;
     }
+
+
+
+
+
+
+        //-------------------------------cartFromUser---------------------------------
+        public function getProductsFromUser($data) {
+            session_start();
+            if(!isset($_SESSION) || !isset($_SESSION['userID']) || is_null($_SESSION['userID'])) {
+                return;
+            }
+    
+            $mArray = array();
+            $this->mysqli = DbMySQL::getConnection();
+    
+            $query = "SELECT SUM(QUANTITY)*PRICE AS TOTAL_PRICE, CARTS.ID, REFERENCE, TITLE, PRICE, DESCRIPTION, SUM(QUANTITY) AS QUANTITY, URL FROM USERS INNER JOIN CARTS ON CARTS.ID = USERS.CART_ID INNER JOIN CART_PRODUCTS ON CARTS.ID = CART_PRODUCTS.CART_ID INNER JOIN PRODUCTS ON PRODUCTS.REFERENCE = CART_PRODUCTS.PRODUCT_REFERENCE INNER JOIN IMAGES ON PRODUCTS.REFERENCE=IMAGES.PRODUCT_REFERENCE WHERE USERS.ID = " .  $_SESSION['userID'] . " GROUP BY PRODUCTS.REFERENCE ORDER BY PRODUCTS.REFERENCE ASC";
+            //echo $query;
+            $result = $this->mysqli->query($query);  
+            while($row = $result->fetch_array()) {
+                $mArray[] = $row;
+            }
+            $json = json_encode($mArray);
+    
+            $this->mysqli->commit();
+            $this->mysqli->close();
+            echo $json;
+            return $json;
+        }
 
 
 
