@@ -65,12 +65,13 @@
 
 
         function checkLogs() {
-            console.log("oiu", "/puppyCo/Model/rest.php?/user/connect/"+$("#email").val()+"/"+$("#mdp").val());
+            //console.log("sending :", "/puppyCo/Model/rest.php?/user/connect/"+$("#email").val()+"/"+$("#mdp").val());
             $.ajax({
                 url: "/puppyCo/Model/rest.php?/user/connect/"+$("#email").val()+"/"+$("#mdp").val(),
                 type: "GET",
                 success: function (data) {
-                    console.log('erreur', data);
+                    alert(data);
+                    closeNav();
                 },
                 error: function (resultat, statut, erreur) {
                     console.log('erreur', erreur);

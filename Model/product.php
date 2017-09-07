@@ -36,13 +36,14 @@ class Product {
         $this->price = $price;
         $this->description = $descr;
 
-        $query = "SELECT ID FROM CATEGORIES WHERE NAME='".$category."'";
+        $query = "SELECT ID FROM CATEGORIES WHERE NOM='".$category."'";
         $result = $this->mysqli->query($query);
+        echo $this->mysqli->error;
         if($row = $result->fetch_array()) {
             $this->category_id = $row[0];
         }
         else {
-            $query = "INSERT INTO CATEGORIES (NAME) VALUES ('".$category."')";
+            $query = "INSERT INTO CATEGORIES (NOM) VALUES ('".$category."')";
             $result = $this->mysqli->query($query);
             $this->category_id = $this->mysqli->insert_id;
         }
@@ -92,7 +93,7 @@ class Product {
                 $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID INNER JOIN IMAGES ON PRODUCTS.REFERENCE=IMAGES.PRODUCT_REFERENCE";
             }
             $result = $this->mysqli->query($query);  
-            
+            //echo $query;
             while($row = $result->fetch_array()) {
                 $mArray[] = $row;
             }

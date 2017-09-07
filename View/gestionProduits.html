@@ -12,6 +12,11 @@
         <h3>Gestion Produits</h3>
     </div>
     <button type="button" class="btn" onclick="window.open('creerUtilisateur.html');">Ajouter un produit</button>
+    <button type="button" onclick="goLeft()">&larr;</button>
+    <button type="button" onclick="setPagination(10)">10</button>
+    <button type="button" onclick="setPagination(20)">20</button>
+    <button type="button" onclick="setPagination(50)">50</button>
+    <button type="button" onclick="goRight()">&rarr;</button>
     <table class="table-fill">
         <thead>
             <tr>
@@ -33,23 +38,54 @@
     <script src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
     <script>
+        var pagination = 20;
+        var start = 0;
+
         $(document).ready(function () {
-            var $this = $(this);
+            loadData();
+        });
+
+
+
+        function setPagination(nb) {
+            pagination = nb;
+            start = 0;
+            loadData();
+        }
+
+
+        function loadData() {
+            $("#bodyDetail").empty();
             $.ajax({
-                url: "/puppyCo/Model/rest.php?/product/read",  
+                url: "/puppyCo/Model/rest.php?/product/read/"+start+"/"+pagination,  
                 type: "GET",
                 success: function (data) {
                     var dataJson = JSON.parse(data);
                     $(dataJson).each(function (index, element) {
-                        $("#bodyDetail").append('<tr><td><img height="50px" width="50px" src="' + element['url'] + '"/></td><td>' + element['reference'] + '</td><td>' + element['category_id'] + '</td><td>' + element['title'] + '</td><td>' + element['price'] + '</td><td>' + element['description'] + '</td><td><a href="detailUtilisateur.php?id=' + element['REFERENCE'] + '">Supprimer</a></td></tr>');
+                        $("#bodyDetail").append('<tr><td><a href="produit.html?ref=' + element['reference'] + '"><img height="50px" width="50px" src="' + element['url'] + '"/></a></td><td>' + element['reference'] + '</td><td>' + element['category_id'] + '</td><td>' + element['title'] + '</td><td>' + element['price'] + '</td><td>' + element['description'] + '</td><td><a href=".php?id=' + element['REFERENCE'] + '">Supprimer</a></td></tr>');
                     });
                 },
                 error: function (resultat, statut, erreur) {
                     console.log('erreur', erreur);
                 }
             });
-        });
+        }
 
+
+
+
+        function goLeft() {
+            if(start > 0) {
+                start -= pagination;
+            }
+            loadData();
+        }
+
+
+        function goRight() {
+            start += pagination;
+            loadData();
+        }
     </script>
 
 </body>

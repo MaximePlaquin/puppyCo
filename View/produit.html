@@ -98,7 +98,7 @@
         $(document).ready(function () {
 
             $.ajax({
-                url: "/puppyCo/Model/rest.php?/product/read",
+                url: "/puppyCo/Model/rest.php?/product/read/" + getUrlParameter('ref'),
                 type: "GET",
                 success: function (data) {
                     var dataJson = JSON.parse(data);
