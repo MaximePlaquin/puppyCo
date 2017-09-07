@@ -156,7 +156,7 @@ class User {
     public function connect($data) {
         $this->mysqli = DbMySQL::getConnection();
 
-        $query = "SELECT ID FROM USERS WHERE MAIL='".$data[0]."' AND PASSWORD='".hash('sha256', $data[1])."'";
+        $query = "SELECT ID, STATUS FROM USERS WHERE MAIL='".$data[0]."' AND PASSWORD='".hash('sha256', $data[1])."'";
         $result = $this->mysqli->query($query);
         $row = $result->fetch_array();
 
@@ -166,6 +166,7 @@ class User {
         else {
             session_start();
             $_SESSION['userID'] = $row[0];
+            $_SESSION['userStatut'] = $row[1];
             echo "Connexion reussie";
         }
 

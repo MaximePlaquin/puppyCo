@@ -11,16 +11,16 @@
     <div id="main">
         <nav>
             <ul>
-            <div class="dropdown">
-                <button class="dropbtn">Catégorie</button>
-                <div class="dropdown-content">
-                    <a class="active" href="#home">Home</a>
-                    <a href="#news">News</a>
-                    <a href="#contact">Contact</a>
-                    <a href="#about">About</a>
+                <div class="dropdown">
+                    <button class="dropbtn">Catégorie</button>
+                    <div class="dropdown-content">
+                        <a class="active" href="#home">Home</a>
+                        <a href="#news">News</a>
+                        <a href="#contact">Contact</a>
+                        <a href="#about">About</a>
+                    </div>
                 </div>
-            </div>
-            <a style="cursor:pointer; position: fixed; right: 0;padding: 10px 14px 0 0; color: white;" onclick="openNav()">&#9776; Connexion</a>
+                <a class="btnConnexion" onclick="openNav()">&#9776; Connexion</a>
             </ul>
         </nav>
 
@@ -35,32 +35,33 @@
     </div>
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <div class="login">
-                <div class="login-screen">
-                    <div class="app-title">
-                        <h1>Identification</h1>
+        <div class="login">
+            <div class="login-screen">
+                <div class="app-title">
+                    <h1>Identification</h1>
+                </div>
+                <div class="login-form">
+                    <div>
+                        <input id="email" type="text" placeholder="eMail" id="login-mail" name="mail">
+                        <label for="login-mail"></label>
                     </div>
-                    <div class="login-form">
-                        <div class="control-group">
-                            <input id="email" type="text" class="login-field" placeholder="eMail" id="login-mail" name="mail">
-                            <label class="login-field-icon fui-user" for="login-mail"></label>
-                        </div>
 
-                        <div class="control-group">
-                            <input id="mdp" type="password" class="login-field" placeholder="Mot de passe" id="login-password" name="mdp">
-                            <label class="login-field-icon fui-lock" for="login-password"></label>
-                        </div>
-                        <input type="submit" class="btn btn-primary btn-large btn-block" value="Connexion" onclick="checkLogs()"/>
+                    <div>
+                        <input id="mdp" type="password" placeholder="Mot de passe" id="login-password" name="mdp">
+                        <label for="login-password"></label>
                     </div>
+                    <input type="submit" class="btn" value="Connexion" onclick="checkLogs()" />
                 </div>
             </div>
+        </div>
     </div>
 
 
 
 
 
-    <script src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
     <script src="/puppyCo/Model/main.js"></script>
     <script>
         function openNav() {
@@ -97,14 +98,12 @@
         $(document).ready(function () {
 
             $.ajax({
-                url: "/puppyCo/Model/rest.php?/product/read/"+getUrlParameter('ref'),
+                url: "/puppyCo/Model/rest.php?/product/read/" + getUrlParameter('ref'),
                 type: "GET",
                 success: function (data) {
                     var dataJson = JSON.parse(data);
                     console.log(dataJson);
-                    $(dataJson).each(function (index, element) {
-                        $("#produit").append('<img height="50px" width="50px" src="' + element['url'] + '"/>' + element['reference'] + '</td><td class="text-left">' + element['title'] + '</td><td class="text-left">' + element['price']);
-                    });
+                        $("#produit").append('<div class="prodDescrImg"><div class="prodImage"><img src="'+dataJson[0]['url']+'" /></div><div class="prodDetails"><h3> '+dataJson[0]['title']+' </h3><div class="description"> '+dataJson[0]['description']+' </div><div class="prix"> Prix :  '+dataJson[0]['price']+' euros</div><a class="btnAjouter" href="/PuppyCo/Model/rest.php?/cart/addProduct/'+dataJson[0]['reference']+'">Ajouter</a></div></div>');
                 },
                 error: function (resultat, statut, erreur) {
                     console.log('erreur', erreur);

@@ -147,13 +147,18 @@ class Cart {
 
     //-------------------------------AddProduct---------------------------------
     public function addProduct($data) {
-        $this->read(array_slice($data, 0, 1));
+        session_start();
+        if(!isset($_SESSION) || !isset($_SESSION['userID']) || is_null($_SESSION['userID'])) {
+            return;
+        }
 
         $this->mysqli = DbMySQL::getConnection();
+        $user = new User();
+        $user->read($_SESSION['userID']);
 
-        $query = "INSERT INTO CART_PRODUCTS (CART_ID, PRODUCT_REFERENCE, QUANTITY) VALUES (".$this->cart_id.", ".$data[1].", 1)";
+        $query = "INSERT INTO CART_PRODUCTS (CART_ID, PRODUCT_REFERENCE, QUANTITY) VALUES (".$user->cart_id.", ".$data[0].", 1)";
         $result = $this->mysqli->query($query);
-        //echo $query;
+        echo $query;
         //echo $this->mysqli->error;
 
         $this->mysqli->close();
