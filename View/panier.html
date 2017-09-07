@@ -20,7 +20,7 @@
                     <a href="#about">About</a>
                 </div>
             </div>
-            <a style="cursor:pointer; position: fixed; right: 0;padding: 10px 14px 0 0; color: white;" onclick="openNav()">&#9776; Connexion</a>
+            <a class="btnConnexion" onclick="openNav()">&#9776; Connexion</a>
             </ul>
         </nav>
         <table class="tableau">
@@ -32,6 +32,7 @@
                         <th>Prix unitaire</th>
                         <th>Quantite</th>
                         <th>Prix total</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="bodyDetail" class="table-hover">
@@ -46,17 +47,17 @@
                     <div class="app-title">
                         <h1>Identification</h1>
                     </div>
-                    <div class="login-form">
-                        <div class="control-group">
-                            <input id="email" type="text" class="login-field" placeholder="eMail" id="login-mail" name="mail">
-                            <label class="login-field-icon fui-user" for="login-mail"></label>
+                    <div>
+                        <div>
+                            <input id="email" type="text" placeholder="eMail" id="login-mail" name="mail">
+                            <label for="login-mail"></label>
                         </div>
 
-                        <div class="control-group">
-                            <input id="mdp" type="password" class="login-field" placeholder="Mot de passe" id="login-password" name="mdp">
-                            <label class="login-field-icon fui-lock" for="login-password"></label>
+                        <div>
+                            <input id="mdp" type="password" placeholder="Mot de passe" id="login-password" name="mdp">
+                            <label for="login-password"></label>
                         </div>
-                        <input type="submit" class="btn btn-primary btn-large btn-block" value="Connexion" onclick="checkLogs()"/>
+                        <input type="submit" class="btn" value="Connexion" onclick="checkLogs()"/>
                     </div>
                 </div>
             </div>
@@ -85,7 +86,7 @@
                     var dataJson = JSON.parse(data);
                     console.log(dataJson);
                     $(dataJson).each(function (index, element) {
-                        $("#bodyDetail").append('<tr><td class="text-left"><img height="50px" width="50px" src="' + element['URL'] + '"/></td><td class="text-left">' + element['REFERENCE'] + '</td><td class="text-left">' + element['TITLE'] + '</td><td class="text-left">' + element['PRICE'] + '</td><td class="text-left">' + element['QUANTITY'] + '</td><td class="text-left">' + element['TOTAL_PRICE'] + '</td><td class="text-left"><a href="detailUtilisateur.php?id=' + element['REFERENCE'] + '">Detail</a></td></tr>');
+                        $("#bodyDetail").append('<tr><td><img height="50px" width="50px" src="' + element['URL'] + '"/></td><td>' + element['REFERENCE'] + '</td><td>' + element['TITLE'] + '</td><td>' + element['PRICE'] + '</td><td>' + element['QUANTITY'] + '</td><td>' + element['TOTAL_PRICE'] + '</td><td><a href="detailUtilisateur.php?id=' + element['REFERENCE'] + '">Supprimer</a></td></tr>');
                     });
                 },
                 error: function (resultat, statut, erreur) {

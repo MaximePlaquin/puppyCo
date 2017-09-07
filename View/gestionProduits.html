@@ -11,15 +11,17 @@
     <div class="table-title">
         <h3>Gestion Produits</h3>
     </div>
-    <button type="button" class="btn" onclick="window.open('creerUtilisateur.html');">Ajouter un utilisateur</button>
+    <button type="button" class="btn" onclick="window.open('creerUtilisateur.html');">Ajouter un produit</button>
     <table class="table-fill">
         <thead>
             <tr>
+                <th></th>
                 <th>Reference</th>
                 <th>Categorie</th>
                 <th>Title</th>
                 <th>Price</th>
                 <th>Description</th>
+                <th></th>
             </tr>
         </thead>
         <tbody id="bodyDetail">
@@ -34,12 +36,12 @@
         $(document).ready(function () {
             var $this = $(this);
             $.ajax({
-                url: "/puppyCo/Model/rest.php?/user/read",  
+                url: "/puppyCo/Model/rest.php?/product/read",  
                 type: "GET",
                 success: function (data) {
                     var dataJson = JSON.parse(data);
                     $(dataJson).each(function (index, element) {
-                        $("#bodyDetail").append('<tr><td>' + element['ID'] + '</td><td>' + element['MAIL'] + '</td><td>' + element['STATUS'] + '</td><td>' + element['ADDRESS'] + '</td><td>' + element['TYPE_CB'] + '</td><td>' + element['NUM_CB'] + '</td><td>' + element['POSTAL_CODE'] + '</td><td><a href="detailUtilisateur.html?id=' + element['ID'] + '">Detail</a></td></tr>');
+                        $("#bodyDetail").append('<tr><td><img height="50px" width="50px" src="' + element['url'] + '"/></td><td>' + element['reference'] + '</td><td>' + element['category_id'] + '</td><td>' + element['title'] + '</td><td>' + element['price'] + '</td><td>' + element['description'] + '</td><td><a href="detailUtilisateur.php?id=' + element['REFERENCE'] + '">Supprimer</a></td></tr>');
                     });
                 },
                 error: function (resultat, statut, erreur) {

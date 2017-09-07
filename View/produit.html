@@ -40,7 +40,7 @@
                 <div class="app-title">
                     <h1>Identification</h1>
                 </div>
-                <div class="login-form">
+                <div>
                     <div>
                         <input id="email" type="text" placeholder="eMail" id="login-mail" name="mail">
                         <label for="login-mail"></label>
@@ -98,7 +98,7 @@
         $(document).ready(function () {
 
             $.ajax({
-                url: "/puppyCo/Model/rest.php?/product/read/" + getUrlParameter('ref'),
+                url: "/puppyCo/Model/rest.php?/product/read",
                 type: "GET",
                 success: function (data) {
                     var dataJson = JSON.parse(data);
