@@ -86,14 +86,10 @@
                 var idUser ="";
                 var res = "";
                 $('input[name=suppCheckbox]:checked').each(function() {
-                    idUser = $(this).attr('id');
-                    res = idUser.splice('');
-                    final += res.toString();
-
-                    console.log(final);
+                    idUser += $(this).attr('id');
                 });
                 $.ajax({
-                    url: "/puppyCo/Model/rest.php?/user/delete/"+final,
+                    url: "/puppyCo/Model/rest.php?/user/delete/"+idUser,
                     type: "DELETE",
                     user: idUser,
                     success: function (data) {
