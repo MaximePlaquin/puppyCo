@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Detail utilisateur</title>
-    <link rel="stylesheet" href="styleDetailUtil.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -13,10 +13,12 @@
             <div class="login-screen">
                 <div class="control-group">
                     <input type="text" class="login-field" placeholder="mail" id="login-mail">
+                    <label for="login-mail">email</label>
                 </div>
 
                 <div class="control-group">
                     <input type="password" class="login-field" placeholder="mot de pass" id="login-pass">
+                    <label for="login-pass">mot de pass</label>
                 </div>
                 <input type="" class="btn btn-primary btn-large btn-block" value="Annuler" onclick='window.location.href = "gestionUtilisateur.html"' />
                 <input type="submit" class="btn btn-primary btn-large btn-block" value="Valider la création" onclick="createUser()" />

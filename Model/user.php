@@ -140,7 +140,7 @@ class User {
     public function delete($data) {
         $this->mysqli = DbMySQL::getConnection();
 
-        $query = "DELETE FROM USERS WHERE ID=".$data[0];
+        $query = "DELETE FROM USERS WHERE ID IN (".$data[0].")";
         $result = $this->mysqli->query($query);
         
         //echo $query;

@@ -12,9 +12,14 @@
         <h3>Gestion utilisateur</h3>
     </div>
     <button type="button" class="btn" onclick="window.open('creerUtilisateur.html');">Ajouter un utilisateur</button>
+    <button type="button" class="btn" onclick="deleteUserSelection()">Supprimer utilisateur</button>
     <table class="table-fill">
         <thead>
             <tr>
+                <th>
+                    <input type="checkbox" id="tous" onclick="cocherTous('suppCheckbox');" />
+                    <label for="tous"></label>
+                </th>
                 <th>id</th>
                 <th>Mail</th>
                 <th>status</th>
@@ -38,12 +43,12 @@
         $(document).ready(function () {
             var $this = $(this);
             $.ajax({
-                url: "/puppyCo/Model/rest.php?/user/read",  
+                url: "/puppyCo/Model/rest.php?/user/read",
                 type: "GET",
                 success: function (data) {
                     var dataJson = JSON.parse(data);
                     $(dataJson).each(function (index, element) {
-                        $("#bodyDetail").append('<tr><td>' + element['ID'] + '</td><td>' + element['MAIL'] + '</td><td>' + element['STATUS'] + '</td><td>' + element['ADDRESS'] + '</td><td>' + element['TYPE_CB'] + '</td><td>' + element['NUM_CB'] + '</td><td>' + element['POSTAL_CODE'] + '</td><td><a href="detailUtilisateur.html?id=' + element['ID'] + '">Detail</a></td></tr>');
+                        $("#bodyDetail").append('<tr><td><input type="checkbox" name="suppCheckbox" id="'+element['ID']+'" /><label for="'+element['ID']+'"></label></td><td id="'+element['ID']+'">' + element['ID'] + '</td><td>' + element['MAIL'] + '</td><td>' + element['STATUS'] + '</td><td>' + element['ADDRESS'] + '</td><td>' + element['TYPE_CB'] + '</td><td>' + element['NUM_CB'] + '</td><td>' + element['POSTAL_CODE'] + '</td><td><a href="detailUtilisateur.html?id=' + element['ID'] + '">Detail</a></td></tr>');
                     });
                 },
                 error: function (resultat, statut, erreur) {
@@ -52,6 +57,56 @@
             });
         });
 
+        var checkFlag = false;
+        function cocherTous(checkbox) {
+            var tous = document.getElementById("tous");
+            var checkbox = document.getElementsByName(checkbox);
+            if (checkFlag == false) {
+                for (var i = 0; i < checkbox.length; i++) {
+                    if (!checkbox[i].disabled) {
+                        checkbox[i].checked = true;
+                    }
+                    tous.value = "Désélectionner tous";
+                    checkFlag = true;
+                }
+            }
+            else {
+                for (i = 0; i < checkbox.length; i++) {
+                    checkbox[i].checked = false;
+                    tous.value = "Sélectionner tous";
+                    checkFlag = false;
+                }
+            }
+        }
+        function deleteUserSelection(){
+            if($('input[name=suppCheckbox]:checked').length == 0) {
+                alert('vous devez au moins sélectionner un utilisateur')
+            } else {
+                var final ="";
+                var idUser ="";
+                var res = "";
+                $('input[name=suppCheckbox]:checked').each(function() {
+                    idUser = $(this).attr('id');
+                    res = idUser.splice('');
+                    final += res.toString();
+
+                    console.log(final);
+                });
+                $.ajax({
+                    url: "/puppyCo/Model/rest.php?/user/delete/"+final,
+                    type: "DELETE",
+                    user: idUser,
+                    success: function (data) {
+                        console.log(data);
+                        alert('utilisateur supprimé !');
+                        window.location.href = "gestionUtilisateur.html";
+                    },
+                    error: function (resultat, statut, erreur) {
+                        console.log('erreur');
+                    }
+                });
+            }
+        }
     </script>
 
 </body>
