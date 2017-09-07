@@ -86,7 +86,7 @@
                     var dataJson = JSON.parse(data);
                     console.log(dataJson);
                     $(dataJson).each(function (index, element) {
-                        $("#bodyDetail").append('<tr><td><img height="50px" width="50px" src="' + element['URL'] + '"/></td><td>' + element['REFERENCE'] + '</td><td>' + element['TITLE'] + '</td><td>' + element['PRICE'] + '</td><td>' + element['QUANTITY'] + '</td><td>' + element['TOTAL_PRICE'] + '</td><td><a href="detailUtilisateur.php?id=' + element['REFERENCE'] + '">Supprimer</a></td></tr>');
+                        $("#bodyDetail").append('<tr><td><img height="50px" width="50px" src="' + element['URL'] + '"/></td><td>' + element['REFERENCE'] + '</td><td>' + element['TITLE'] + '</td><td>' + element['PRICE'] + '</td><td>' + element['QUANTITY'] + '</td><td>' + element['TOTAL_PRICE'] + '</td><td><a href="/PuppyCo/Model/rest.php?/cart/delete/' + element['REFERENCE'] + '">Supprimer</a></td></tr>');
                     });
                 },
                 error: function (resultat, statut, erreur) {

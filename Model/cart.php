@@ -131,15 +131,23 @@ class Cart {
 
 
     //-------------------------------Delete---------------------------------
-    public function delete($id) {
+    public function delete($data) {
+        session_start();
+        if(!isset($_SESSION) || !isset($_SESSION['userID']) || is_null($_SESSION['userID'])) {
+            return;
+        }
         $this->mysqli = DbMySQL::getConnection();
+        $user = new User();
+        $user->read($_SESSION['userID']);
 
-        $query = "DELETE FROM CARTS WHERE ID=".$id;
+        $query = "DELETE FROM CART_PRODUCTS WHERE PRODUCT_REFERENCE=".$data[0]." AND CART_ID=".$user->cart_id;
         $result = $this->mysqli->query($query);
         //echo $query;
         //echo $this->mysqli->error;
 
         $this->mysqli->close();
+        header("Location: /PuppyCo/View/panier.html");
+        die();
     }
 
 
@@ -158,12 +166,13 @@ class Cart {
 
         $query = "INSERT INTO CART_PRODUCTS (CART_ID, PRODUCT_REFERENCE, QUANTITY) VALUES (".$user->cart_id.", ".$data[0].", 1)";
         $result = $this->mysqli->query($query);
-        echo $query;
+        //echo $query;
         //echo $this->mysqli->error;
 
         $this->mysqli->close();
 
-
+        header("Location: /PuppyCo/View/panier.html");
+        die();
     }
 
 }

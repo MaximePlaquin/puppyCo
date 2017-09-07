@@ -17,6 +17,9 @@
     <button type="button" onclick="setPagination(20)">20</button>
     <button type="button" onclick="setPagination(50)">50</button>
     <button type="button" onclick="goRight()">&rarr;</button>
+    <br /><br /><br />
+    <input id="searchFilter" type="text"/>
+    <button type="button" onclick="search()">Rechercher</button>
     <table class="table-fill">
         <thead>
             <tr>
@@ -85,6 +88,28 @@
         function goRight() {
             start += pagination;
             loadData();
+        }
+
+
+
+
+
+        function search() {
+            $("#bodyDetail").empty();
+            console.log("piuy", $("#searchFilter").val());
+            $.ajax({
+                url: "/puppyCo/Model/rest.php?/product/search/"+$("#searchFilter").val(),  
+                type: "GET",
+                success: function (data) {
+                    var dataJson = JSON.parse(data);
+                    $(dataJson).each(function (index, element) {
+                        $("#bodyDetail").append('<tr><td><a href="produit.html?ref=' + element['reference'] + '"><img height="50px" width="50px" src="' + element['url'] + '"/></a></td><td>' + element['reference'] + '</td><td>' + element['category_id'] + '</td><td>' + element['title'] + '</td><td>' + element['price'] + '</td><td>' + element['description'] + '</td><td><a href=".php?id=' + element['REFERENCE'] + '">Supprimer</a></td></tr>');
+                    });
+                },
+                error: function (resultat, statut, erreur) {
+                    console.log('erreur', erreur);
+                }
+            });
         }
     </script>
 

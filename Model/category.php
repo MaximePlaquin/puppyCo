@@ -36,7 +36,9 @@ class Category {
     //-------------------------------Read---------------------------------
     public function read($data) {
         $this->mysqli = DbMySQL::getConnection();
-        $this->id = $data[0];
+        if(count($data)>0) {
+            $this->id = $data[0];
+        }
 
         if($this->id!=null && $this->id>0) {
             $query = "SELECT * FROM CATEGORIES WHERE CATEGORIES.ID = " .  $this->id;
