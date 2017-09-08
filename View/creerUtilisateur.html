@@ -8,6 +8,13 @@
 </head>
 
 <body>
+
+
+        <div w3-include-html="barreMenu.html"></div>
+
+
+
+
     <div class="login">
         <div class="login-form">
             <div class="login-screen">
@@ -25,8 +32,28 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+    <script src="barreMenu.js"></script>
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
     <script src="http://code.jquery.com/jquery-2.2.4.min.js"integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="crossorigin="anonymous"></script>
     <script>
+
+
+        $(document).ready(function () {
+            w3.includeHTML();
+            loadCategories();
+        });
+
+
+
         function createUser() {
             if ($('#login-mail').val() === '' || $('#login-pass').val() === '') {
                 alert('Les champs doivent êtres remplis');
@@ -35,15 +62,20 @@
                     url: "/puppyCo/Model/rest.php?/user/create/"+ $('#login-mail').val() + "/" + $('#login-pass').val(),
                     type: "POST",
                     success: function (data) {
+                        console.log(data);
                         alert('utilisateur créer !');
                         window.location.href = "gestionUtilisateur.html";
                     },
                     error: function (resultat, statut, erreur) {
-                        console.log('erreur');
+                        console.log('erreur',erreur);
                     }
                 });
             }
         }
+
+
+
+
     </script>
 </body>
 </html>

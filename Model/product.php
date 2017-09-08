@@ -36,13 +36,14 @@ class Product {
         $this->price = $price;
         $this->description = $descr;
 
-        $query = "SELECT ID FROM CATEGORIES WHERE NAME='".$category."'";
+        $query = "SELECT ID FROM CATEGORIES WHERE NOM='".$category."'";
         $result = $this->mysqli->query($query);
+        echo $this->mysqli->error;
         if($row = $result->fetch_array()) {
             $this->category_id = $row[0];
         }
         else {
-            $query = "INSERT INTO CATEGORIES (NAME) VALUES ('".$category."')";
+            $query = "INSERT INTO CATEGORIES (NOM) VALUES ('".$category."')";
             $result = $this->mysqli->query($query);
             $this->category_id = $this->mysqli->insert_id;
         }
@@ -59,13 +60,17 @@ class Product {
 
     //-------------------------------Read---------------------------------
     public function read($data) {
-        $ref = $data[0];
+        $ref = 0;
         $mArray = array();
         $this->mysqli = DbMySQL::getConnection();
 
+        if(count($data) == 1) {
+            $ref = $data[0];
+        }
+
         if($ref!=null && $ref>0) {
             $this->reference = $ref;
-            $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID WHERE PRODUCTS.REFERENCE = " .  $this->reference;
+            $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID INNER JOIN IMAGES ON PRODUCTS.REFERENCE=IMAGES.PRODUCT_REFERENCE WHERE PRODUCTS.REFERENCE = " .  $this->reference;
             $result = $this->mysqli->query($query);  
             //echo $query;
             while($row = $result->fetch_array()) {
@@ -80,9 +85,15 @@ class Product {
         }
 
         else {
-            $query = "SELECT * FROM USERS INNER JOIN DELIVERY_INFOS ON USERS.DELIVERY_INFO=DELIVERY_INFOS.ID";
+            if(count($data) > 1) {
+                //retourne data[1] elements a partir de data[0]
+                $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID INNER JOIN IMAGES ON PRODUCTS.REFERENCE=IMAGES.PRODUCT_REFERENCE  ORDER BY REFERENCE ASC LIMIT ".$data[1]." OFFSET ".$data[0];
+            }
+            else {
+                $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID INNER JOIN IMAGES ON PRODUCTS.REFERENCE=IMAGES.PRODUCT_REFERENCE";
+            }
             $result = $this->mysqli->query($query);  
-            
+            //echo $query;
             while($row = $result->fetch_array()) {
                 $mArray[] = $row;
             }
@@ -101,13 +112,10 @@ class Product {
 
     //-------------------------------Update---------------------------------
     public function update($data) {
-        $mysqli = database::getConnection();
+        $this->mysqli = DbMySQL::getConnection();
 
-        $query = "UPDATE USERS SET MAIL='".$data["mail"]."', PASSWORD='".$data["password"]."', STATUS='".$data["status"]."' WHERE ID=".$this->user_id;
+        $query = "UPDATE PRODUCTS SET CATEGORY_ID=".$data[1].", TITLE='".$data[2]."', PRICE=".$data[3].", DESCRIPTION=".$data[4]." WHERE REFERENCE=".$data[0];
         $result = $this->mysqli->query($query); 
-
-        $query = "UPDATE DELIVERY_INFOS SET ADDRESS='".$data["address"]."', TYPE_CB='".$data["type_cb"]."', NUM_CB=".$data["num_cb"].", CRYPTO=".$data["crypto"].", POSTAL_CODE=".$data["postal_code"].", CITY='".$data["city"]."' WHERE ID=".$this->delivery_id;
-        $result = $this->mysqli->query($query);  
 
         $mysqli->close();
         return $this->read($this->user_id);
@@ -115,12 +123,27 @@ class Product {
 
 
 
-
     //-------------------------------Delete---------------------------------
-    public function delete() {
-        $mysqli = database::getConnection();
+    public function delete($data) {
+        $this->mysqli = DbMySQL::getConnection();
 
-        $query = "DELETE FROM USERS WHERE ID=".$this->user_id;
+        foreach($data as $d) {
+            $query = "DELETE FROM PRODUCTS WHERE ID=".$d;
+            $result = $this->mysqli->query($query); 
+        }
+
+        $mysqli->close();
+    }
+
+
+
+
+
+    //-------------------------------addImage---------------------------------
+    public function addImage($data) {
+        $this->mysqli = DbMySQL::getConnection();
+
+        $query = "INSERT INTO IMAGES (PRODUCT_REFERENCE, URL) VALUES (".$data[0].", '".$data[1]."')";
         $result = $this->mysqli->query($query); 
 
         $mysqli->close();
@@ -128,9 +151,84 @@ class Product {
 
 
 
+
+
+    //-------------------------------getRandom---------------------------------
+    public function getRandom($data) {
+        $this->mysqli = DbMySQL::getConnection();
+
+        $query = "SELECT URL, TITLE, PRODUCTS.REFERENCE, PRICE FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID INNER JOIN IMAGES ON PRODUCTS.REFERENCE=IMAGES.PRODUCT_REFERENCE ORDER BY RAND() LIMIT ".$data[0];
+        $result = $this->mysqli->query($query);  
+            
+        while($row = $result->fetch_array()) {
+            $mArray[] = $row;
+        }
+        $json = json_encode($mArray);
+
+
+        $this->mysqli->commit();
+        $this->mysqli->close();
+        echo $json;
+        return $json;
+    }
+
+
+
+
+
+    //-------------------------------Search---------------------------------
+    public function search($data) {
+        $this->mysqli = DbMySQL::getConnection();
+
+        $query = "SELECT * FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID INNER JOIN IMAGES ON PRODUCTS.REFERENCE=IMAGES.PRODUCT_REFERENCE WHERE TITLE LIKE '%".$data[0]."%' OR DESCRIPTION LIKE '%".$data[0]."%'";
+        $result = $this->mysqli->query($query);  
+            
+        while($row = $result->fetch_array()) {
+            $mArray[] = $row;
+        }
+        $json = json_encode($mArray);
+
+
+        $this->mysqli->commit();
+        $this->mysqli->close();
+        echo $json;
+        return $json;
+    }
+
+
+
+
+
+
+
+    //-------------------------------GetByCategory---------------------------------
+    public function getByCategory($data) {
+        $this->mysqli = DbMySQL::getConnection();
+
+        $query = "SELECT url, title, products.reference, nom, price, description FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID INNER JOIN IMAGES ON PRODUCTS.REFERENCE=IMAGES.PRODUCT_REFERENCE WHERE CATEGORIES.NOM='".$data[0]. "' ORDER BY REFERENCE ASC LIMIT ".$data[2]." OFFSET ".$data[1];
+        $result = $this->mysqli->query($query);  
+        //echo $query;
+        while($row = $result->fetch_array()) {
+            $mArray[] = $row;
+        }
+        $json = json_encode($mArray);
+
+
+        $this->mysqli->commit();
+        $this->mysqli->close();
+        echo $json;
+        return $json;
+    }
+
+
+
+
+
+
+
+
+
+
 }
 
 
-
-$me = new Product();
-$me->read(564452);

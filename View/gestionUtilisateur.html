@@ -4,19 +4,28 @@
 <head>
     <meta charset="utf-8">
     <title>Gestion utilisateur</title>
-    <link rel="stylesheet" href="styleGestionUtil.css">
-    <script src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="table-title">
+
+
+        <div w3-include-html="barreMenu.html"></div> 
+
+
+
+    <div class="table-title" style="text-align: center">
         <h3>Gestion utilisateur</h3>
     </div>
-    <button type="button" class="btn btn-primary btn-large btn-block"><a href="creerUtilisateur.html">Ajouter un utilisateur!</a></button>
+    <button type="button" class="btn" onclick="window.open('creerUtilisateur.html');">Ajouter un utilisateur</button>
+    <button type="button" class="btn" onclick="deleteUserSelection()">Supprimer utilisateur</button>
     <table class="table-fill">
         <thead>
             <tr>
+                <th>
+                    <input type="checkbox" id="tous" onclick="cocherTous('suppCheckbox');" />
+                    <label for="tous"></label>
+                </th>
                 <th>id</th>
                 <th>Mail</th>
                 <th>status</th>
@@ -28,29 +37,98 @@
 
             </tr>
         </thead>
-        <tbody id="bodyDetail" class="table-hover">
+        <tbody id="bodyDetail">
 
         </tbody>
     </table>
 
 
+
+
+
+
+
+    <script src="barreMenu.js"></script>
+    <script src="https://www.w3schools.com/lib/w3.js"></script> 
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function () {
             var $this = $(this);
             $.ajax({
-                url: "/puppyCo/Model/rest.php?/user/read",  
+                url: "/puppyCo/Model/rest.php?/user/read",
                 type: "GET",
                 success: function (data) {
                     var dataJson = JSON.parse(data);
                     $(dataJson).each(function (index, element) {
-                        $("#bodyDetail").append('<tr><td class="text-left">' + element['id'] + '</td><td class="text-left">' + element['mail'] + '</td><td class="text-left">' + element['status'] + '</td><td class="text-left">' + element['address'] + '</td><td class="text-left">' + element['type_cb'] + '</td><td class="text-left">' + element['num_cb'] + '</td><td class="text-left">' + element['postal_code'] + '</td><td class="text-left"><a href="detailUtilisateur.php?id=' + element['id'] + '">Detail</a></td></tr>');
+                        $("#bodyDetail").append('<tr><td><input type="checkbox" name="suppCheckbox" id="'+element['ID']+'" /><label for="'+element['ID']+'"></label></td><td id="'+element['ID']+'">' + element['ID'] + '</td><td>' + element['MAIL'] + '</td><td>' + element['STATUS'] + '</td><td>' + element['ADDRESS'] + '</td><td>' + element['TYPE_CB'] + '</td><td>' + element['NUM_CB'] + '</td><td>' + element['POSTAL_CODE'] + '</td><td><a href="detailUtilisateur.html?id=' + element['ID'] + '">Detail</a></td></tr>');
                     });
                 },
                 error: function (resultat, statut, erreur) {
                     console.log('erreur', erreur);
                 }
             });
+
+
+            w3.includeHTML();
+            loadCategories();
         });
+
+
+
+        var checkFlag = false;
+        function cocherTous(checkbox) {
+            var tous = document.getElementById("tous");
+            var checkbox = document.getElementsByName(checkbox);
+            if (checkFlag == false) {
+                for (var i = 0; i < checkbox.length; i++) {
+                    if (!checkbox[i].disabled) {
+                        checkbox[i].checked = true;
+                    }
+                    tous.value = "Désélectionner tous";
+                    checkFlag = true;
+                }
+            }
+            else {
+                for (i = 0; i < checkbox.length; i++) {
+                    checkbox[i].checked = false;
+                    tous.value = "Sélectionner tous";
+                    checkFlag = false;
+                }
+            }
+        }
+
+
+
+
+
+        function deleteUserSelection(){
+            if($('input[name=suppCheckbox]:checked').length == 0) {
+                alert('vous devez au moins sélectionner un utilisateur')
+            } else {
+                var final ="";
+                var idUser ="";
+                var res = "";
+                $('input[name=suppCheckbox]:checked').each(function() {
+                    idUser += $(this).attr('id');
+                });
+                $.ajax({
+                    url: "/puppyCo/Model/rest.php?/user/delete/"+idUser,
+                    type: "DELETE",
+                    user: idUser,
+                    success: function (data) {
+                        console.log(data);
+                        alert('utilisateur supprimé !');
+                        window.location.href = "gestionUtilisateur.html";
+                    },
+                    error: function (resultat, statut, erreur) {
+                        console.log('erreur');
+                    }
+                });
+            }
+        }
+
+
+
 
     </script>
 

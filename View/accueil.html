@@ -3,108 +3,43 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Accueil Puppy</title>
+    <title>Accueil PuppyCo</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div id="main">
-        <nav>
-            <ul>
-            <div class="dropdown">
-                <button class="dropbtn">Catégorie</button>
-                <div class="dropdown-content">
-                    <a class="active" href="#home">Home</a>
-                    <a href="#news">News</a>
-                    <a href="#contact">Contact</a>
-                    <a href="#about">About</a>
-                </div>
-            </div>
-            <a style="cursor:pointer; position: fixed; right: 0;padding: 10px 14px 0 0; color: white;" onclick="openNav()">&#9776; Connexion</a>
-            </ul>
-        </nav>
-        <div class="categorie">
-            <div class="container-card">
-                <div class="card">
-                    <div class="app-title">
-                        <h1>catégorie 1</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="container-card">
-                <div class="card">
-                    <div class="app-title">
-                        <h1>catégorie 2</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="container-card">
-                <div class="card">
-                    <div class="app-title">
-                        <h1>catégorie 3</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="container-card">
-                <div class="card">
-                    <div class="app-title">
-                        <h1>catégorie 4</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="container-card">
-                <div class="card">
-                    <div class="app-title">
-                        <h1>catégorie 5</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="container-card">
-                <div class="card">
-                    <div class="app-title">
-                        <h1>catégorie 6</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <form id="formulaireC" action="/puppyCo/Model/rest.php?/login" method="post">
-            <div class="login">
-                <div class="login-screen">
-                    <div class="app-title">
-                        <h1>Identification</h1>
-                    </div>
-                    <div class="login-form">
-                        <div class="control-group">
-                            <input type="text" class="login-field" placeholder="Pseudo" id="login-mail" name="mail">
-                            <label class="login-field-icon fui-user" for="login-mail"></label>
-                        </div>
 
-                        <div class="control-group">
-                            <input type="password" class="login-field" placeholder="mot de pass" id="login-password" name="mdp">
-                            <label class="login-field-icon fui-lock" for="login-password"></label>
-                        </div>
-                        <input type="submit" class="btn btn-primary btn-large btn-block" value="Connexion" />
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-    <script src="http://code.jquery.com/jquery-2.2.4.min.js"integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="crossorigin="anonymous"></script>
+    <div w3-include-html="barreMenu.html"></div> 
+        
+
+    <script src="barreMenu.js"></script> 
+    <script src="https://www.w3schools.com/lib/w3.js"></script> 
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script src="/puppyCo/Model/main.js"></script>
     <script>
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "250px";
-            document.getElementById("main").style.marginLeft = "250px";
 
-        }
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-            document.getElementById("main").style.marginLeft = "0";
+        $(document).ready(function () {
+            w3.includeHTML();
+            loadCategories();
 
-        }
+            $.ajax({
+                url: "/puppyCo/Model/rest.php?/product/getrandom/6",
+                type: "GET",
+                success: function (data) {
+                    var dataJson = JSON.parse(data);
+                    console.log(dataJson);
+                    $(dataJson).each(function (index, element) {
+                        $(".categorie").append('<a href="produit.html?ref=' + element['REFERENCE'] + '"><div class="container-card"><div class="card"><div class="app-title"><img src="'+element['URL']+'"><h1>'+element['TITLE']+'</h1><br/><h1>'+element['PRICE']+' e</h1></div></div></div></a>');
+                    });
+                },
+                error: function (resultat, statut, erreur) {
+                    console.log('erreur', erreur);
+                }
+            });
+
+            
+        });
+
     </script>
 </body>
 

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Panier</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+
+        <div w3-include-html="barreMenu.html"></div> 
+        
+
+
+
+        <table class="tableau">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Reference</th>
+                        <th>Title</th>
+                        <th>Prix unitaire</th>
+                        <th>Quantite</th>
+                        <th>Prix total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="bodyDetail" class="table-hover">
+        
+                </tbody>
+            </table>
+
+
+
+    <script src="barreMenu.js"></script>
+    <script src="https://www.w3schools.com/lib/w3.js"></script> 
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="/puppyCo/Model/main.js"></script>
+    <script>
+
+
+        $(document).ready(function () {
+
+            $.ajax({
+                url: "/puppyCo/Model/rest.php?/cart/getProductsFromUser",
+                type: "GET",
+                success: function (data) {
+                    var dataJson = JSON.parse(data);
+                    console.log(dataJson);
+                    $(dataJson).each(function (index, element) {
+                        $("#bodyDetail").append('<tr><td><img height="50px" width="50px" src="' + element['URL'] + '"/></td><td>' + element['REFERENCE'] + '</td><td>' + element['TITLE'] + '</td><td>' + element['PRICE'] + '</td><td>' + element['QUANTITY'] + '</td><td>' + element['TOTAL_PRICE'] + '</td><td><a href="/PuppyCo/Model/rest.php?/cart/delete/' + element['REFERENCE'] + '">Supprimer</a></td></tr>');
+                    });
+                },
+                error: function (resultat, statut, erreur) {
+                    console.log('erreur', erreur);
+                }
+            });
+
+            w3.includeHTML();
+            loadCategories();
+        });
+
+
+
+    </script>
+</body>
+
+</html>

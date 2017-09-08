@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Liste Produits</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>    
+
+    
+        <div w3-include-html="barreMenu.html"></div> 
+
+        
+
+
+    <div class="table-title">
+        <h3>Liste Produits</h3>
+    </div>
+    <button type="button" class="btn" onclick="window.open('creerUtilisateur.html');">Ajouter un produit</button>
+    <button type="button" onclick="goLeft()">&larr;</button>
+    <button type="button" onclick="setPagination(10)">10</button>
+    <button type="button" onclick="setPagination(20)">20</button>
+    <button type="button" onclick="setPagination(50)">50</button>
+    <button type="button" onclick="goRight()">&rarr;</button>
+    <br /><br /><br />
+    <input id="searchFilter" type="text"/>
+    <button type="button" onclick="search()">Rechercher</button>
+    <table class="table-fill">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Reference</th>
+                <th>Categorie</th>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="bodyDetail">
+
+        </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+    <script src="barreMenu.js"></script> 
+    <script src="https://www.w3schools.com/lib/w3.js"></script> 
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script>
+        var pagination = 20;
+        var start = 0;
+        var method;
+
+        $(document).ready(function () {
+            if(getUrlParameter("method")=="getByCategory") {
+                method = "getByCategory";
+            }
+            else {
+                method = "read";
+            }
+
+            w3.includeHTML();
+            loadCategories();
+            loadData();
+        });
+
+
+        
+
+        function setPagination(nb) {
+            pagination = nb;
+            start = 0;
+            loadData();
+        }
+
+
+        function loadData() {
+            $("#bodyDetail").empty();
+            $.ajax({
+                url: "/puppyCo/Model/rest.php?/product/"+method+"/"+getUrlParameter("category")+"/"+start+"/"+pagination,  
+                type: "GET",
+                success: function (data) {
+                    var dataJson = JSON.parse(data);
+                    $(dataJson).each(function (index, element) {
+                        $("#bodyDetail").append('<tr><td><a href="produit.html?ref=' + element['reference'] + '"><img height="50px" width="50px" src="' + element['url'] + '"/></a></td><td>' + element['reference'] + '</td><td>' + element['nom'] + '</td><td>' + element['title'] + '</td><td>' + element['price'] + '</td><td>' + element['description'] + '</td><td><a href=".php?id=' + element['REFERENCE'] + '">Supprimer</a></td></tr>');
+                    });
+                },
+                error: function (resultat, statut, erreur) {
+                    console.log('erreur', erreur);
+                }
+            });
+        }
+
+
+
+
+
+
+        function goLeft() {
+            if(start > 0) {
+                start -= pagination;
+            }
+            loadData();
+        }
+
+
+        function goRight() {
+            start += pagination;
+            loadData();
+        }
+
+
+
+
+
+        function search() {
+            $("#bodyDetail").empty();
+            console.log("piuy", $("#searchFilter").val());
+            $.ajax({
+                url: "/puppyCo/Model/rest.php?/product/search/"+$("#searchFilter").val(),  
+                type: "GET",
+                success: function (data) {
+                    var dataJson = JSON.parse(data);
+                    $(dataJson).each(function (index, element) {
+                        $("#bodyDetail").append('<tr><td><a href="produit.html?ref=' + element['reference'] + '"><img height="50px" width="50px" src="' + element['url'] + '"/></a></td><td>' + element['reference'] + '</td><td>' + element['category_id'] + '</td><td>' + element['title'] + '</td><td>' + element['price'] + '</td><td>' + element['description'] + '</td><td><a href="/PuppyCo/Model/.php?id=' + element['reference'] + '">Supprimer</a></td></tr>');
+                    });
+                },
+                error: function (resultat, statut, erreur) {
+                    console.log('erreur', erreur);
+                }
+            });
+        }
+
+
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>

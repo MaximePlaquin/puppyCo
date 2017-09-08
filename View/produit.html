@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Panier</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+        <div w3-include-html="barreMenu.html"></div> 
+        
+
+        <div id="produit">
+
+
+        </div>
+
+
+
+        <script src="barreMenu.js"></script> 
+        <script src="https://www.w3schools.com/lib/w3.js"></script> 
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="/puppyCo/Model/main.js"></script>
+    <script>
+
+
+
+        $(document).ready(function () {
+
+            $.ajax({
+                url: "/puppyCo/Model/rest.php?/product/read/" + getUrlParameter('ref'),
+                type: "GET",
+                success: function (data) {
+                    var dataJson = JSON.parse(data);
+                    console.log(dataJson);
+                        $("#produit").append('<div class="prodDescrImg"><div class="prodImage"><img src="'+dataJson[0]['url']+'" /></div><div class="prodDetails"><h3> '+dataJson[0]['title']+' </h3><div class="description"> '+dataJson[0]['description']+' </div><div class="prix"> Prix :  '+dataJson[0]['price']+' euros</div><a class="btnAjouter" href="/PuppyCo/Model/rest.php?/cart/addProduct/'+dataJson[0]['reference']+'">Ajouter</a></div></div>');
+                },
+                error: function (resultat, statut, erreur) {
+                    console.log('erreur', erreur);
+                }
+            });
+
+            
+            w3.includeHTML();
+            loadCategories();
+        });
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

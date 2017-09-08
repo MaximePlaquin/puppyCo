@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Detail utilisateur</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+        <div w3-include-html="barreMenu.html"></div> 
+        
+
+            
+    <div class="login">
+        <div class="login-form">
+            <div class="login-screen">
+                <div>
+                    <input type="text" placeholder="mail" id="login-mail">
+                    <label for="login-mail">Mail</label>
+                </div>
+
+                <div>
+                    <input type="text" placeholder="status" id="login-status">
+                    <label for="login-status">status</label>
+                </div>
+                <div>
+                    <input type="text" placeholder="address" id="login-address">
+                    <label for="login-address">address</label>
+                </div>
+                <div>
+                    <input type="text" placeholder="type_cb" id="login-typecb">
+                    <label for="login-typecb">type_cb</label>
+                </div>
+                <div>
+                    <input type="text" placeholder="num-cb" id="login-numcb">
+                    <label for="login-numcb">num_cb</label>
+                </div>
+                <div>
+                    <input type="text" placeholder="crypto" id="login-crypto">
+                    <label for="login-crypto">crypto</label>
+                </div>
+                <div>
+                    <input type="text" placeholder="city" id="login-city">
+                    <label for="login-city">city</label>
+                <div>
+                    <input type="text" placeholder="postal code" id="login-postalcode">
+                    <label for="login-postalcode">code postal</label>
+                </div>
+                </div>
+                <input type="" class="btn" value="Annuler" onclick='window.location.href = "gestionUtilisateur.html"' />
+                <input type="submit" class="btn" value="supprimer" onclick="deleteUser()" />
+                <input type="submit" class="btn" value="Valider les changements" onclick="updateUser()" />
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <script src="barreMenu.js"></script>
+    <script src="https://www.w3schools.com/lib/w3.js"></script> 
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js"integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="crossorigin="anonymous"></script>
+    <script>
+
+        var userId;
+
+
+
+        $(document).ready(function () {
+            userId = getUrlParameter('id');
+            $.ajax({
+                url: "/puppyCo/Model/rest.php?/user/read/"+getUrlParameter('id'),
+                type: "GET",
+                success: function (data) {
+                    var dataJson = JSON.parse(data);
+                    console.log(dataJson);
+                    $(dataJson).each(function(index, element){
+                        $('#login-mail').val(element['MAIL']);
+                        $('#login-status').val(element['STATUS']);
+                        $('#login-address').val(element['ADDRESS']);
+                        $('#login-typecb').val(element['TYPE_CB']);
+                        $('#login-numcb').val(element['NUM_CB']);
+                        $('#login-postalcode').val(element['POSTAL_CODE']);
+                        $('#login-crypto').val(element['CRYPTO']);
+                        $('#login-city').val(element['CITY']);
+                    });
+                },
+                error: function (resultat, statut, erreur) {
+                    console.log('erreur', erreur);
+                }
+            });
+
+
+            w3.includeHTML();
+            loadCategories();
+        });
+
+
+
+
+
+            function deleteUser(){
+                $.ajax({
+                    url: "/puppyCo/Model/rest.php?/user/delete/"+getUrlParameter('id'),
+                    type: "DELETE",
+                    success: function (data) {
+                        console.log(data);
+                        alert('utilisateur supprimé !');
+                        window.location.href = "gestionUtilisateur.html";
+                    },
+                    error: function (resultat, statut, erreur) {
+                        console.log('erreur');
+                    }
+                });
+            }
+               function updateUser(){
+                $.ajax({
+                    url: "/puppyCo/Model/rest.php?/user/update/"+userId+"/"+$('#login-mail').val()+"/"+$('#login-status').val()+"/"+$('#login-address').val()+"/"+$('#login-typecb').val()+"/"+$('#login-numcb').val()+"/"+$('#login-crypto').val()+"/"+$('#login-postalcode').val()+"/"+$('#login-city').val(),
+                    type: "PUT",
+                    success: function (data) {
+                        alert('utilisateur mis à jour !');
+                        window.location.href = "gestionUtilisateur.html";
+                    },
+                    error: function (resultat, statut, erreur) {
+                        console.log('erreur');
+                    }
+                });
+            }
+
+
+
+
+    </script>
+</body>
+
+</html>
