@@ -10,7 +10,6 @@ class User {
 
 
     public function __construct() {
-        session_start();
     }
 
     
@@ -95,7 +94,6 @@ class User {
         $this->mysqli->commit();
         $this->mysqli->close();
         echo $json;
-        return $json;
     }
 
 
@@ -149,7 +147,7 @@ class User {
     //-------------------------------Connect---------------------------------
     public function connect($data) {
         $this->mysqli = DbMySQL::getConnection();
-
+        echo "oipoi";
         $query = "SELECT ID, STATUS FROM USERS WHERE MAIL='".$data[0]."' AND PASSWORD='".hash('sha256', $data[1])."'";
         $result = $this->mysqli->query($query);
         $row = $result->fetch_array();
@@ -158,6 +156,7 @@ class User {
             echo "Erreur de connexion";
         }
         else {
+            session_start();
             $_SESSION['userID'] = $row[0];
             $_SESSION['userStatut'] = $row[1];
             echo "Connexion reussie";
