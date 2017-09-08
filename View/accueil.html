@@ -8,83 +8,28 @@
 </head>
 
 <body>
-    <div id="main">
-        <nav>
-            <ul>
-            <div class="dropdown">
-                <button class="dropbtn">Menu</button>
-                <div class="dropdown-content">
-                    <a class="active" href="#home">Home</a>
-                    <a href="#news">News</a>
-                    <a href="#contact">Contact</a>
-                    <a href="#about">About</a>
-                </div>
-            </div>
-            <div class="dropdown">
-                    <button class="dropbtn">Catégories</button>
-                    <div id="listCategories" class="dropdown-content">
-                    </div>
-            </div>
-            <a class="btnConnexion" onclick="openNav()">&#9776; Connexion</a>
-            </ul>
-        </nav>
-        <div class="categorie">
 
-        </div>
-    </div>
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <div class="login">
-                <div class="login-screen">
-                    <div class="app-title">
-                        <h1>Identification</h1>
-                    </div>
-                    <div class="login-form">
-                        <div class="control-group">
-                            <input id="email" type="text" class="login-field" placeholder="eMail" id="login-mail" name="mail">
-                            <label for="login-mail"></label>
-                        </div>
+        <div w3-include-html="barreMenu.html"></div> 
+        
 
-                        <div class="control-group">
-                            <input id="mdp" type="password" class="login-field" placeholder="Mot de passe" id="login-password" name="mdp">
-                            <label for="login-password"></label>
-                        </div>
-                        <input type="submit" class="btn" value="Connexion" onclick="checkLogs()"/>
-                    </div>
-                </div>
-            </div>
-    </div>
+
+
+
+
+
+
+
+        <script src="barreMenu.js"></script> 
+        <script src="https://www.w3schools.com/lib/w3.js"></script> 
     <script src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script src="/puppyCo/Model/main.js"></script>
     <script>
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "250px";
-            document.getElementById("main").style.marginRight = "250px";
-
-        }
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-            document.getElementById("main").style.marginRight = "0";
-
-        }
 
 
-        function checkLogs() {
-            //console.log("sending :", "/puppyCo/Model/rest.php?/user/connect/"+$("#email").val()+"/"+$("#mdp").val());
-            $.ajax({
-                url: "/puppyCo/Model/rest.php?/user/connect/"+$("#email").val()+"/"+$("#mdp").val(),
-                type: "GET",
-                success: function (data) {
-                    alert(data);
-                    closeNav();
-                },
-                error: function (resultat, statut, erreur) {
-                    console.log('erreur', erreur);
-                }
-            });
-        }
 
         $(document).ready(function () {
+            w3.includeHTML();
+            loadCategories();
 
             $.ajax({
                 url: "/puppyCo/Model/rest.php?/product/getrandom/6",
@@ -101,27 +46,12 @@
                 }
             });
 
-            loadCategories();
+            
         });
 
 
 
-        function loadCategories() {
-            $.ajax({
-                url: "/puppyCo/Model/rest.php?/category/read",
-                type: "GET",
-                success: function (data) {
-                    var dataJson = JSON.parse(data);
-                    console.log(dataJson);
-                    $(dataJson).each(function (index, element) {
-                        $("#listCategories").append('<a href="/PuppyCo/view/gestionProduits">'+element['nom']+'</a>');
-                    });
-                },
-                error: function (resultat, statut, erreur) {
-                    console.log('erreur', erreur);
-                }
-            });
-        }
+
     </script>
 </body>
 

@@ -8,22 +8,10 @@
 </head>
 
 <body>
-    <div id="main">
-        <nav>
-            <ul>
-                <div class="dropdown">
-                    <button class="dropbtn">Catégorie</button>
-                    <div class="dropdown-content">
-                        <a class="active" href="#home">Home</a>
-                        <a href="#news">News</a>
-                        <a href="#contact">Contact</a>
-                        <a href="#about">About</a>
-                    </div>
-                </div>
-                <a class="btnConnexion" onclick="openNav()">&#9776; Connexion</a>
-            </ul>
-        </nav>
 
+
+        <div w3-include-html="barreMenu.html"></div> 
+        
 
         <div id="produit">
 
@@ -32,66 +20,11 @@
 
 
 
-    </div>
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <div class="login">
-            <div class="login-screen">
-                <div class="app-title">
-                    <h1>Identification</h1>
-                </div>
-                <div>
-                    <div>
-                        <input id="email" type="text" placeholder="eMail" id="login-mail" name="mail">
-                        <label for="login-mail"></label>
-                    </div>
-
-                    <div>
-                        <input id="mdp" type="password" placeholder="Mot de passe" id="login-password" name="mdp">
-                        <label for="login-password"></label>
-                    </div>
-                    <input type="submit" class="btn" value="Connexion" onclick="checkLogs()" />
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-    <script src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-        crossorigin="anonymous"></script>
+        <script src="barreMenu.js"></script> 
+        <script src="https://www.w3schools.com/lib/w3.js"></script> 
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script src="/puppyCo/Model/main.js"></script>
     <script>
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "250px";
-            document.getElementById("main").style.marginRight = "250px";
-
-        }
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-            document.getElementById("main").style.marginRight = "0";
-
-        }
-
-
-
-        var getUrlParameter = function getUrlParameter(sParam) {
-            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-                sURLVariables = sPageURL.split('&'),
-                sParameterName,
-                i;
-
-            for (i = 0; i < sURLVariables.length; i++) {
-                sParameterName = sURLVariables[i].split('=');
-
-                if (sParameterName[0] === sParam) {
-                    return sParameterName[1] === undefined ? true : sParameterName[1];
-                }
-            }
-        };
-
 
 
 
@@ -110,7 +43,21 @@
                 }
             });
 
+            
+            w3.includeHTML();
+            loadCategories();
         });
+
+
+
+
+
+
+
+
+
+
+
     </script>
 </body>
 

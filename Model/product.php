@@ -201,6 +201,31 @@ class Product {
 
 
 
+    //-------------------------------GetByCategory---------------------------------
+    public function getByCategory($data) {
+        $this->mysqli = DbMySQL::getConnection();
+
+        $query = "SELECT url, title, products.reference, nom, price, description FROM PRODUCTS INNER JOIN CATEGORIES ON PRODUCTS.CATEGORY_ID=CATEGORIES.ID INNER JOIN IMAGES ON PRODUCTS.REFERENCE=IMAGES.PRODUCT_REFERENCE WHERE CATEGORIES.NOM='".$data[0]. "' ORDER BY REFERENCE ASC LIMIT ".$data[2]." OFFSET ".$data[1];
+        $result = $this->mysqli->query($query);  
+        //echo $query;
+        while($row = $result->fetch_array()) {
+            $mArray[] = $row;
+        }
+        $json = json_encode($mArray);
+
+
+        $this->mysqli->commit();
+        $this->mysqli->close();
+        echo $json;
+        return $json;
+    }
+
+
+
+
+
+
+
 
 
 

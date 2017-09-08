@@ -15,6 +15,9 @@ class Cart {
 
     public function __construct() {
         $this->products = array();
+
+
+        session_start();
     }
 
     
@@ -88,10 +91,10 @@ class Cart {
 
         //-------------------------------cartFromUser---------------------------------
         public function getProductsFromUser($data) {
-            session_start();
             if(!isset($_SESSION) || !isset($_SESSION['userID']) || is_null($_SESSION['userID'])) {
                 return;
             }
+    
     
             $mArray = array();
             $this->mysqli = DbMySQL::getConnection();
@@ -132,10 +135,8 @@ class Cart {
 
     //-------------------------------Delete---------------------------------
     public function delete($data) {
-        session_start();
-        if(!isset($_SESSION) || !isset($_SESSION['userID']) || is_null($_SESSION['userID'])) {
-            return;
-        }
+
+
         $this->mysqli = DbMySQL::getConnection();
         $user = new User();
         $user->read($_SESSION['userID']);
@@ -155,11 +156,6 @@ class Cart {
 
     //-------------------------------AddProduct---------------------------------
     public function addProduct($data) {
-        session_start();
-        if(!isset($_SESSION) || !isset($_SESSION['userID']) || is_null($_SESSION['userID'])) {
-            return;
-        }
-
         $this->mysqli = DbMySQL::getConnection();
         $user = new User();
         $user->read($_SESSION['userID']);

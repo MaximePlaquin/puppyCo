@@ -8,6 +8,12 @@
 </head>
 
 <body>
+
+
+        <div w3-include-html="barreMenu.html"></div> 
+
+
+
     <div class="table-title" style="text-align: center">
         <h3>Gestion utilisateur</h3>
     </div>
@@ -37,8 +43,14 @@
     </table>
 
 
-    <script src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
+
+
+
+
+    <script src="barreMenu.js"></script>
+    <script src="https://www.w3schools.com/lib/w3.js"></script> 
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function () {
             var $this = $(this);
@@ -55,7 +67,13 @@
                     console.log('erreur', erreur);
                 }
             });
+
+
+            w3.includeHTML();
+            loadCategories();
         });
+
+
 
         var checkFlag = false;
         function cocherTous(checkbox) {
@@ -78,6 +96,11 @@
                 }
             }
         }
+
+
+
+
+
         function deleteUserSelection(){
             if($('input[name=suppCheckbox]:checked').length == 0) {
                 alert('vous devez au moins sélectionner un utilisateur')
@@ -103,6 +126,10 @@
                 });
             }
         }
+
+
+
+
     </script>
 
 </body>

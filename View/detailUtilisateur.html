@@ -8,6 +8,12 @@
 </head>
 
 <body>
+
+
+        <div w3-include-html="barreMenu.html"></div> 
+        
+
+            
     <div class="login">
         <div class="login-form">
             <div class="login-screen">
@@ -50,23 +56,54 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+
+    <script src="barreMenu.js"></script>
+    <script src="https://www.w3schools.com/lib/w3.js"></script> 
     <script src="http://code.jquery.com/jquery-2.2.4.min.js"integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="crossorigin="anonymous"></script>
     <script>
+
         var userId;
-        var getUrlParameter = function getUrlParameter(sParam) {
-            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-                sURLVariables = sPageURL.split('&'),
-                sParameterName,
-                i;
 
-            for (i = 0; i < sURLVariables.length; i++) {
-                sParameterName = sURLVariables[i].split('=');
 
-                if (sParameterName[0] === sParam) {
-                    return sParameterName[1] === undefined ? true : sParameterName[1];
+
+        $(document).ready(function () {
+            userId = getUrlParameter('id');
+            $.ajax({
+                url: "/puppyCo/Model/rest.php?/user/read/"+getUrlParameter('id'),
+                type: "GET",
+                success: function (data) {
+                    var dataJson = JSON.parse(data);
+                    console.log(dataJson);
+                    $(dataJson).each(function(index, element){
+                        $('#login-mail').val(element['MAIL']);
+                        $('#login-status').val(element['STATUS']);
+                        $('#login-address').val(element['ADDRESS']);
+                        $('#login-typecb').val(element['TYPE_CB']);
+                        $('#login-numcb').val(element['NUM_CB']);
+                        $('#login-postalcode').val(element['POSTAL_CODE']);
+                        $('#login-crypto').val(element['CRYPTO']);
+                        $('#login-city').val(element['CITY']);
+                    });
+                },
+                error: function (resultat, statut, erreur) {
+                    console.log('erreur', erreur);
                 }
-            }
-        };
+            });
+
+
+            w3.includeHTML();
+            loadCategories();
+        });
+
+
+
+
+
             function deleteUser(){
                 $.ajax({
                     url: "/puppyCo/Model/rest.php?/user/delete/"+getUrlParameter('id'),
@@ -94,31 +131,9 @@
                     }
                 });
             }
-        $(document).ready(function () {
-            userId = getUrlParameter('id');
-            $.ajax({
-                url: "/puppyCo/Model/rest.php?/user/read/"+getUrlParameter('id'),
-                type: "GET",
-                success: function (data) {
-                    var dataJson = JSON.parse(data);
-                    console.log(dataJson);
-                    $(dataJson).each(function(index, element){
-                        $('#login-mail').val(element['MAIL']);
-                        $('#login-status').val(element['STATUS']);
-                        $('#login-address').val(element['ADDRESS']);
-                        $('#login-typecb').val(element['TYPE_CB']);
-                        $('#login-numcb').val(element['NUM_CB']);
-                        $('#login-postalcode').val(element['POSTAL_CODE']);
-                        $('#login-crypto').val(element['CRYPTO']);
-                        $('#login-city').val(element['CITY']);
-                    });
-                },
-                error: function (resultat, statut, erreur) {
-                    console.log('erreur', erreur);
-                }
-            });
 
-        });
+
+
 
     </script>
 </body>

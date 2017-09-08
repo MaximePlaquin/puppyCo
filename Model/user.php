@@ -4,25 +4,13 @@ include_once "database.php";
 
 
 class User {
-    public $user_id;
-    public $mail;
-    public $mdp;
-    public $cart_id;
-    public $delivery_id;
-    public $status;
-    public $address;
-    public $type_cb;
-    public $num_cb;
-    public $crypto;
-    public $postal_code;
-    public $city;
-    
     
     public $mysqli;
 
 
 
     public function __construct() {
+        session_start();
     }
 
     
@@ -138,6 +126,11 @@ class User {
 
     //-------------------------------Delete---------------------------------
     public function delete($data) {
+        if(!isset($_SESSION) || !isset($_SESSION['userStatut']) || is_null($_SESSION['userStatut'])) {
+            if($_SESSION['userStatut']!="admin")
+                return;
+        }
+
         $this->mysqli = DbMySQL::getConnection();
 
         foreach($data as $d) {
@@ -165,7 +158,6 @@ class User {
             echo "Erreur de connexion";
         }
         else {
-            session_start();
             $_SESSION['userID'] = $row[0];
             $_SESSION['userStatut'] = $row[1];
             echo "Connexion reussie";

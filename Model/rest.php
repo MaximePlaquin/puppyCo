@@ -23,7 +23,7 @@ if(sizeof($request)>2) {
 }
 
 
-$_SERVER['REQUEST_METHOD']==="PUT" ? parse_str(file_get_contents("php://input", false , null, 0 , $_SERVER['CONTENT_LENGTH'] ), $_PUT): $_PUT=array();
+//$_SERVER['REQUEST_METHOD']==="PUT" ? parse_str(file_get_contents("php://input", false , null, 0 , $_SERVER['CONTENT_LENGTH'] ), $_PUT): $_PUT=array();
 if (count($request) == 0 || null == $controller) {
   throw new Exeption("Route not exist");
 }
