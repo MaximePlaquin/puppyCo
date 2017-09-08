@@ -156,7 +156,7 @@ class Cart {
 
         $query = "SELECT USERS.ID, MAIL, PASSWORD, CART_ID, DELIVERY_INFO, STATUS, ADDRESS, TYPE_CB, NUM_CB, CRYPTO, POSTAL_CODE, CITY FROM USERS INNER JOIN DELIVERY_INFOS ON USERS.DELIVERY_INFO=DELIVERY_INFOS.ID WHERE USERS.ID=".$_SESSION['userID'];
         $result = $this->mysqli->query($query);  
-        echo $query;
+
         while($row = $result->fetch_array()) {
             $mArray[] = $row;
         }
