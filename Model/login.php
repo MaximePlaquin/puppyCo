@@ -5,7 +5,6 @@ class login {
     public function __construct() {
     }
 
-    // je n'arrive pas à faire le login
     public function POST($request, $post) {
         $this->mysqli = DbMySQL::getConnection();
         echo $post;
