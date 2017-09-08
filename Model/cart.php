@@ -16,8 +16,8 @@ class Cart {
     public function __construct() {
         $this->products = array();
 
-
         session_start();
+
     }
 
     
@@ -91,10 +91,6 @@ class Cart {
 
         //-------------------------------cartFromUser---------------------------------
         public function getProductsFromUser($data) {
-            if(!isset($_SESSION) || !isset($_SESSION['userID']) || is_null($_SESSION['userID'])) {
-                return;
-            }
-    
     
             $mArray = array();
             $this->mysqli = DbMySQL::getConnection();
@@ -110,7 +106,6 @@ class Cart {
             $this->mysqli->commit();
             $this->mysqli->close();
             echo $json;
-            return $json;
         }
 
 
@@ -157,10 +152,16 @@ class Cart {
     //-------------------------------AddProduct---------------------------------
     public function addProduct($data) {
         $this->mysqli = DbMySQL::getConnection();
-        $user = new User();
-        $user->read($_SESSION['userID']);
 
-        $query = "INSERT INTO CART_PRODUCTS (CART_ID, PRODUCT_REFERENCE, QUANTITY) VALUES (".$user->cart_id.", ".$data[0].", 1)";
+
+        $query = "SELECT USERS.ID, MAIL, PASSWORD, CART_ID, DELIVERY_INFO, STATUS, ADDRESS, TYPE_CB, NUM_CB, CRYPTO, POSTAL_CODE, CITY FROM USERS INNER JOIN DELIVERY_INFOS ON USERS.DELIVERY_INFO=DELIVERY_INFOS.ID WHERE USERS.ID=".$_SESSION['userID'];
+        $result = $this->mysqli->query($query);  
+        echo $query;
+        while($row = $result->fetch_array()) {
+            $mArray[] = $row;
+        }
+
+        $query = "INSERT INTO CART_PRODUCTS (CART_ID, PRODUCT_REFERENCE, QUANTITY) VALUES (".$mArray[0][3].", ".$data[0].", 1)";
         $result = $this->mysqli->query($query);
         //echo $query;
         //echo $this->mysqli->error;
